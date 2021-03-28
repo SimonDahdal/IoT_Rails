@@ -1,0 +1,68 @@
+<%= form_with(model: sensor) do |form| %>
+  <% if sensor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sensor.errors.count, "error") %> prohibited this sensor from being saved:</h2>
+
+      <ul>
+        <% sensor.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :URI %>
+    <%= form.text_field :URI %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sensor_type %>
+    <%= form.text_field :sensor_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :public %>
+    <%= form.check_box :public %>
+  </div>
+
+  <div class="field">
+    <%= form.label :latitude %>
+    <%= form.text_field :latitude %>
+  </div>
+
+  <div class="field">
+    <%= form.label :longitude %>
+    <%= form.text_field :longitude %>
+  </div>
+
+  <div class="field">
+    <%= form.label :firmware %>
+    <%= form.text_field :firmware %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notifica_down %>
+    <%= form.check_box :notifica_down %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tdown %>
+    <%= form.number_field :tdown %>
+  </div>
+
+  <div class="field">
+    <%= form.label :measure_unit %>
+    <%= form.text_field :measure_unit %>
+  </div>
+
+    <div class="field">
+
+        <%= form.hidden_field :user_id,
+        class:"form-control", value: current_user.id%>
+    </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

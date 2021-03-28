@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :measurements
+  resources :sensors
   devise_for :users
   get 'home/index'
   root 'home#index'
