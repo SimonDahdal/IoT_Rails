@@ -1,6 +1,6 @@
 class MeasurementsController < ApplicationController
   before_action :set_measurement, only: %i[ show edit update destroy ]
-
+  skip_before_action :verify_authenticity_token, only: [:create]
   # GET /measurements or /measurements.json
   def index
     @measurements = Measurement.all
@@ -55,6 +55,7 @@ class MeasurementsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
