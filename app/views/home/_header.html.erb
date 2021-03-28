@@ -20,6 +20,14 @@
                     <%= link_to "Edit Profile", edit_user_registration_path, class: "nav-link" %>
                 </li>
 
+                <li class="nav-item active">
+                    <%= link_to "My sensors", sensors_path, class: "nav-link" %>
+                </li>
+
+                <li class="nav-item active">
+                    <%= link_to "New Sensor", new_sensor_path, class: "nav-link" %>
+                </li>
+
             <% else %>
 
                 <li class="nav-item active">
@@ -29,6 +37,8 @@
                 <li class="nav-item active">
                     <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
                 </li>
+
+
 
             <% end %>
 
