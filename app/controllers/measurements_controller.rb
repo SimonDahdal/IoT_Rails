@@ -21,7 +21,11 @@ class MeasurementsController < ApplicationController
 
   # POST /measurements or /measurements.json
   def create
-    @measurement = Measurement.new(measurement_params)
+    sid = Sensor.where(URI: measurement_params[:sensor_uri]).pluck(:id).first
+    mp1 = measurement_params.merge(sensor_id: sid)
+    mp2 = mp1.extract!(:sensor_uri)
+    @measurement = Measurement.new(mp1)
+
 
     respond_to do |format|
       if @measurement.save
@@ -36,8 +40,10 @@ class MeasurementsController < ApplicationController
 
   # PATCH/PUT /measurements/1 or /measurements/1.json
   def update
+    mp1 = measurement_params
+    mp2 = mp1.extract!(:sensor_uri)
     respond_to do |format|
-      if @measurement.update(measurement_params)
+      if @measurement.update(mp1)
         format.html { redirect_to @measurement, notice: "Measurement was successfully updated." }
         format.json { render :show, status: :ok, location: @measurement }
       else
@@ -65,6 +71,6 @@ class MeasurementsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def measurement_params
-      params.require(:measurement).permit(:timestamp, :value, :sensor_id )
+      params.require(:measurement).permit(:timestamp, :value, :sensor_uri, :sensor_id)
     end
 end
