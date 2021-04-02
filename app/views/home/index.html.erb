@@ -1,3 +1,6 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
-<h3> prova branches </h3>
+<% if user_signed_in? %>
+   <h1> Benvenuto <%= current_user.email.split('@')[0] %> </h1>
+<% else %>
+   <h3> Effettua il login </h3>
+    <%= link_to "Login", new_user_session_path ,class:"btn btn-secondary"  %>
+<%end %>
