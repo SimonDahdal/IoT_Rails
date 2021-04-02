@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Sensors</h1>
-
-<table>
-  <thead>
+<h1>Your Sensors</h1>
+<br>
+<table class="table table-striped table-bordered table-hover">
+  <thead class="thead-dark">
     <tr>
       <th>Uri</th>
       <th>Sensor type</th>
@@ -40,4 +40,4 @@
 
 <br>
 
-<%= link_to 'New Sensor', new_sensor_path %>
+<%= link_to 'New Sensor', new_sensor_path, class:"btn btn-primary"%>
