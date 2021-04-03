@@ -45,5 +45,10 @@
   <%= @sensor.measure_unit %>
 </p>
 
+<h2>Misure</h2>
+<div id="measurements">
+    <%= render @sensor.measurements %>
+</div>
+
 <%= link_to 'Edit', edit_sensor_path(@sensor) %> |
 <%= link_to 'Back', sensors_path %>
