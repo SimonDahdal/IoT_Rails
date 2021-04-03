@@ -4,7 +4,7 @@ class MeasurementsController < ApplicationController
 
   # GET /measurements or /measurements.json
   def index
-    @measurements = Measurement.all
+    @measurements = Measurement.joins(:sensor).where("sensors.public = 'true'")
   end
 
   # GET /measurements/1 or /measurements/1.json
