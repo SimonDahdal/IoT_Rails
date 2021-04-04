@@ -7,9 +7,15 @@ class MeasurementsController < ApplicationController
     @measurements = Measurement.joins(:sensor).where("sensors.public = 'true'")
   end
 
+  def index_measurements_sensor
+    @sensor = Sensor.find_by_id(params[:sensor_id])
+    @measurements = Measurement.joins(:sensor).where("sensors.id = #{params[:sensor_id]}")
+  end
+
   # GET /measurements/1 or /measurements/1.json
   def show
   end
+
 
   # GET /measurements/new
   def new
