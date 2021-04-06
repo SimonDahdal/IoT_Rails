@@ -1,15 +1,30 @@
 class MeasurementsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index_measurements_public_sensor]
   before_action :set_measurement, only: %i[ show edit update destroy ]
   skip_before_action :verify_authenticity_token, only: [:create]
   # GET /measurements or /measurements.json
   def index
-    @measurements = Measurement.all
+    @measurements = Measurement.joins(:sensor).where("sensors.public = 'true'")
+  end
+
+  def index_measurements_sensor
+    @sensor = Sensor.find_by_id(params[:sensor_id])
+    @measurements = Measurement.joins(:sensor).where("sensors.id = #{params[:sensor_id]}")
+  end
+
+  def index_measurements_public_sensor
+    @sensor = Sensor.find_by_id(params[:sensor_id])
+    if @sensor.public == true
+      @measurements = Measurement.joins(:sensor).where("sensors.id = #{params[:sensor_id]}")
+    else
+      @measurements = nil
+    end
   end
 
   # GET /measurements/1 or /measurements/1.json
   def show
   end
+
 
   # GET /measurements/new
   def new
