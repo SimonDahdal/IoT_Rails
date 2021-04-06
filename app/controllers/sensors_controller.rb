@@ -1,10 +1,14 @@
 class SensorsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:public_sensors_index]
   before_action :set_sensor, only: %i[ show edit update destroy ]
 
   # GET /sensors or /sensors.json
   def index
-    @sensors = Sensor.all
+    @sensors = current_user.sensors
+  end
+
+  def public_sensors_index
+    @sensors = Sensor.where('public = true')
   end
 
   # GET /sensors/1 or /sensors/1.json
