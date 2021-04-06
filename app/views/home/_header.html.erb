@@ -73,6 +73,12 @@
         <%= link_to "Sensori Publici", '/public_sensors', class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link" %>
 
 
+
+        <% if user_signed_in? %>
+            <span class="navbar-text">
+            <%= current_user.email %>
+            </span>
+        <%end %>
     </div>
 </nav>
 

@@ -1,8 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+    <strong>Sensor URI:</strong>
+    <%= @measurement.sensor.URI %>
+</p>
+
+<p>
   <strong>Timestamp:</strong>
-  <%= @measurement.timestamp %>
+  <%= @measurement.timestamp.in_time_zone("Paris") %>
 </p>
 
 <p>

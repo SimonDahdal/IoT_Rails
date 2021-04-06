@@ -14,7 +14,7 @@
   <tbody>
     <% @measurements.each do |measurement| %>
       <tr>
-        <td><%= measurement.timestamp %></td>
+        <td><%= measurement.timestamp.in_time_zone("Paris") %></td>
         <td><%= measurement.value %></td>
         <td><%= link_to 'Show', measurement %></td>
         <td><%= link_to 'Edit', edit_measurement_path(measurement) %></td>
