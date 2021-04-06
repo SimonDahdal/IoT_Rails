@@ -1,5 +1,5 @@
 class MeasurementsController < ApplicationController
-  before_action :authenticate_user!, except: [:index_measurements_public_sensor]
+  before_action :authenticate_user!, except: [:index_measurements_public_sensor, :create]
   before_action :set_measurement, only: %i[ show edit update destroy ]
   skip_before_action :verify_authenticity_token, only: [:create]
   # GET /measurements or /measurements.json
