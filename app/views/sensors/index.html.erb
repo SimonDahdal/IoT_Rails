@@ -63,11 +63,6 @@
 <br>
 <br>
 
-<!--<p>
-    <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?zoom=17&size=400x300&center=#{@sensors[0].latitude},#{@sensors[0].longitude}&key=#{Rails.application.credentials.google_maps_api_key}", alt: "Map" %>
-</p>-->
-
-
 <div id='map'>
   <script type="text/javascript">
     var map = L.map('map').setView([<%=@sensors[0].latitude%>,<%=@sensors[0].longitude%>], 13);
