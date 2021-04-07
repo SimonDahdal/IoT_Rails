@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Measurements of Sensor #<%= @sensor.id %></h1>
+<h2> URI : <%= @sensor.URI %></h2>
+<h2>  Sensor type : <%= @sensor.sensor_type %> </h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Timestamp</th>
+      <th>Value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <%if not @measurements.nil? %>
+
+<tbody>
+    <% @measurements.each do |measurement| %>
+      <tr>
+        <td><%= measurement.timestamp.in_time_zone("Paris") %></td>
+        <td><%= measurement.value %></td>
+<%#        <td><%= link_to 'Show', measurement %></td>
+<%#        <td><%= link_to 'Edit', edit_measurement_path(measurement) %></td>
+<%#        <td><%= link_to 'Destroy', measurement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+   <%else %>
+        <h1> non data to show please login</h1>
+   <%end %>
+<br>

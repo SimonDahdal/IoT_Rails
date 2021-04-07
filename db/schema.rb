@@ -10,10 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_144654) do
+ActiveRecord::Schema.define(version: 2021_03_28_171926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "measurements", force: :cascade do |t|
+    t.datetime "timestamp"
+    t.float "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "sensor_id"
+    t.index ["sensor_id"], name: "index_measurements_on_sensor_id"
+  end
+
+  create_table "sensors", force: :cascade do |t|
+    t.string "URI"
+    t.string "sensor_type"
+    t.boolean "public"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "firmware"
+    t.boolean "notifica_down"
+    t.integer "tdown"
+    t.string "measure_unit"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.index ["URI"], name: "index_sensors_on_URI", unique: true
+    t.index ["user_id"], name: "index_sensors_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false

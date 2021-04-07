@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+    <strong>Sensor URI:</strong>
+    <%= @measurement.sensor.URI %>
+</p>
+
+<p>
+  <strong>Timestamp:</strong>
+  <%= @measurement.timestamp.in_time_zone("Paris") %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @measurement.value %>
+</p>
+
+<%= link_to 'Edit', edit_measurement_path(@measurement) %> |
+<%= link_to 'Back', measurements_path %>
