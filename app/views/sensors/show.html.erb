@@ -28,6 +28,10 @@
 <p>
   <strong>Firmware:</strong>
   <%= @sensor.firmware %>
+    <%= form_with url: "/sensors/#{@sensor.id}/download" do |form| %>
+        <%= form.hidden_field :firmware, class:"form-control", value: @sensor.firmware%>
+        <%= form.submit "Scarica file" %>
+    <% end %>
 </p>
 
 <p>
@@ -49,6 +53,7 @@
 <div id="update_firmware">
     <%= form_with url: "/sensors/#{@sensor.id}/upload", multipart: true do |form| %>
         <%= form.file_field :firmware_file %>
+        <%= form.hidden_field :sensor_id, class:"form-control", value: @sensor.id%>
         <%= form.submit %>
     <% end %>
 </div>
