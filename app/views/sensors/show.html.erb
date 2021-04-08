@@ -29,6 +29,7 @@
   <strong>Firmware:</strong>
   <%= @sensor.firmware %>
     <%= form_with url: "/sensors/#{@sensor.id}/download" do |form| %>
+        <%= form.hidden_field :sensor_id, class:"form-control", value: @sensor.id%>
         <%= form.hidden_field :firmware, class:"form-control", value: @sensor.firmware%>
         <%= form.submit "Scarica file" %>
     <% end %>

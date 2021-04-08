@@ -63,7 +63,7 @@ class SensorsController < ApplicationController
 
   def upload
     uploaded_file = params[:firmware_file]
-    File.open(Rails.root.join('public', 'uploads', uploaded_file.original_filename), 'wb') do |file|
+    File.open(Rails.root.join('public', 'uploads', "#{params[:sensor_id]}_#{uploaded_file.original_filename}"), 'wb') do |file|
       file.write(uploaded_file.read)
     end
     sensor=Sensor.find(params[:sensor_id])
@@ -75,7 +75,7 @@ class SensorsController < ApplicationController
     end
   end
   def download
-    send_file("#{Rails.root}/public/uploads/#{params[:firmware]}")
+    send_file("#{Rails.root}/public/uploads/#{params[:sensor_id]}_#{params[:firmware]}")
   end
 
 
