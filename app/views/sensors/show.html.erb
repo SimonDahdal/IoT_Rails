@@ -45,6 +45,14 @@
   <%= @sensor.measure_unit %>
 </p>
 
+<h2>Aggiorna firmware</h2>
+<div id="update_firmware">
+    <%= form_with url: "/sensors/#{@sensor.id}/upload", multipart: true do |form| %>
+        <%= form.file_field :firmware_file %>
+        <%= form.submit %>
+    <% end %>
+</div>
+
 <h2>Misure</h2>
 <div id="measurements">
     <%= render @sensor.measurements %>
