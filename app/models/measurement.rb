@@ -20,19 +20,4 @@ class Measurement < ApplicationRecord
         where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
       end
   }
-
-  def chart_data (format)
-  if format.nil? or format == "1_week"
-    where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
-    elsif format == "24_hours"
-    where("timestamp > ?", 24.hours.ago).pluck(:timestamp, :value)
-    elsif format == "1_month"
-    where("timestamp > ?", 1.months.ago).pluck(:timestamp, :value)
-    elsif format == "full"
-    pluck(:timestamp, :value)
-  else
-    where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
-  end
-  end
-
 end

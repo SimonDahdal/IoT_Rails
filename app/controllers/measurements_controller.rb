@@ -12,17 +12,7 @@ class MeasurementsController < ApplicationController
   def index
     @measurements = @sensor.measurements
     @data = @measurements.chart_data(params[:format])
-    if params[:format].nil? or params[:format] == "1_week"
-      @label = "1 Week Ago"
-    elsif params[:format] == "24_hours"
-      @label = "24 Hours Ago"
-    elsif params[:format] == "1_month"
-        @label = "1 Month Ago"
-    elsif params[:format] == "full"
-        @label = "Full Period"
-    else
-      @label = "Not valid Period -> 7 days ago"
-    end
+    @label = str_label(params[:format])
   end
 
   def index_measurements_public_sensor
@@ -132,6 +122,21 @@ class MeasurementsController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @measurement.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def str_label(label)
+    case label
+    when "1_week"
+      "1 week ago"
+    when "24_hours"
+      "24 hours ago"
+    when "1_month"
+      "1 month ago"
+    when "full"
+      "Full period"
+    else
+      "1 week ago"
     end
   end
 end
