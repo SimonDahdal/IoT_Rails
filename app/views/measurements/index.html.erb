@@ -1,6 +1,7 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Measurements</h1>
+<h1> Measurements of Sensor <%= @sensor.URI %></h1>
+<h2> Sensor type : <%= @sensor.sensor_type %> </h2>
 
 <table>
   <thead>
@@ -16,9 +17,9 @@
       <tr>
         <td><%= measurement.timestamp.in_time_zone("Paris") %></td>
         <td><%= measurement.value %></td>
-        <td><%= link_to 'Show', measurement %></td>
-        <td><%= link_to 'Edit', edit_measurement_path(measurement) %></td>
-        <td><%= link_to 'Destroy', measurement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [@sensor, measurement] %></td>
+        <td><%= link_to 'Edit', edit_sensor_measurement_path(@sensor, measurement) %></td>
+        <td><%= link_to 'Destroy', [@sensor, measurement], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +27,4 @@
 
 <br>
 
-<%= link_to 'New Measurement', new_measurement_path %>
+<%= link_to 'New Measurement', new_sensor_measurement_path(@sensor) %>

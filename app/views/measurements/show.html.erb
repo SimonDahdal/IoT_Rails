@@ -15,5 +15,5 @@
   <%= @measurement.value %>
 </p>
 
-<%= link_to 'Edit', edit_measurement_path(@measurement) %> |
-<%= link_to 'Back', measurements_path %>
+<%= link_to 'Edit', edit_sensor_measurement_path(@sensor, @measurement) %> |
+<%= link_to 'Back', sensor_measurements_path(@sensor) %>
