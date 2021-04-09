@@ -38,8 +38,6 @@
                     <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
                 </li>
 
-
-
             <% end %>
 
             <!-- Ci serviranno dopo per il momento l'ho commentato..
@@ -70,13 +68,12 @@
             -->
 
         </ul>
-        <%= link_to "Sensori Publici", '/public_sensors', class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link" %>
-
+        <%= link_to "Sensori Publici", '/public_sensors', class: "form-inline mr-3 my-lg-0 btn btn-primary stretched-link" %>
 
 
         <% if user_signed_in? %>
             <span class="navbar-text">
-            <%= current_user.email %>
+                <%= current_user.email %>
             </span>
         <%end %>
     </div>

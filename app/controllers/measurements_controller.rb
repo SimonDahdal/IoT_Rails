@@ -1,5 +1,5 @@
 class MeasurementsController < ApplicationController
-  before_action :authenticate_user!, except: [:index_measurements_public_sensor]
+  before_action :authenticate_user!, except: [:index_measurements_public_sensor, :create]
   before_action :set_measurement, only: %i[ show edit update destroy ]
   skip_before_action :verify_authenticity_token, only: [:create]
   # GET /measurements or /measurements.json
@@ -10,12 +10,52 @@ class MeasurementsController < ApplicationController
   def index_measurements_sensor
     @sensor = Sensor.find_by_id(params[:sensor_id])
     @measurements = Measurement.joins(:sensor).where("sensors.id = #{params[:sensor_id]}")
+
+    if params[:format].nil? or params[:format] == "1_week"
+      @data = @measurements.where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
+      @label = "1 Week Ago"
+
+    elsif params[:format] == "24_hours"
+      @data = @measurements.where("timestamp > ?", 24.hours.ago).pluck(:timestamp, :value)
+      @label = "24 Hours Ago"
+
+    elsif params[:format] == "1_month"
+      @data = @measurements.where("timestamp > ?", 1.months.ago).pluck(:timestamp, :value)
+      @label = "1 Month Ago"
+
+    elsif params[:format] == "full"
+      @data = @measurements.pluck(:timestamp, :value)
+      @label = "Full Period"
+    else
+      @data = @measurements.where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
+      @label = "Not valid Period -> 7 days ago"
+    end
+
   end
 
   def index_measurements_public_sensor
     @sensor = Sensor.find_by_id(params[:sensor_id])
     if @sensor.public == true
       @measurements = Measurement.joins(:sensor).where("sensors.id = #{params[:sensor_id]}")
+      if params[:format].nil? or params[:format] == "1_week"
+        @data = @measurements.where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
+        @label = "1 Week Ago"
+
+      elsif params[:format] == "24_hours"
+        @data = @measurements.where("timestamp > ?", 24.hours.ago).pluck(:timestamp, :value)
+        @label = "24 Hours Ago"
+
+      elsif params[:format] == "1_month"
+        @data = @measurements.where("timestamp > ?", 1.months.ago).pluck(:timestamp, :value)
+        @label = "1 Month Ago"
+
+      elsif params[:format] == "full"
+        @data = @measurements.pluck(:timestamp, :value)
+        @label = "Full Period"
+      else
+        @data = @measurements.where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
+        @label = "Not valid Period -> 7 days ago"
+      end
     else
       @measurements = nil
     end
