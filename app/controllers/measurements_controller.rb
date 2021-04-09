@@ -11,38 +11,23 @@ class MeasurementsController < ApplicationController
 
   def index
     @measurements = @sensor.measurements
-  end
-
-  def index_measurements_sensor
-    @sensor = Sensor.find_by_id(params[:sensor_id])
-
-    @measurements = Measurement.joins(:sensor).where("sensors.id = ?", params[:sensor_id])
-
+    @data = @measurements.chart_data(params[:format])
     if params[:format].nil? or params[:format] == "1_week"
-      @data = @measurements.where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
       @label = "1 Week Ago"
-
     elsif params[:format] == "24_hours"
-      @data = @measurements.where("timestamp > ?", 24.hours.ago).pluck(:timestamp, :value)
       @label = "24 Hours Ago"
-
     elsif params[:format] == "1_month"
-      @data = @measurements.where("timestamp > ?", 1.months.ago).pluck(:timestamp, :value)
-      @label = "1 Month Ago"
-
+        @label = "1 Month Ago"
     elsif params[:format] == "full"
-      @data = @measurements.pluck(:timestamp, :value)
-      @label = "Full Period"
+        @label = "Full Period"
     else
-      @data = @measurements.where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
       @label = "Not valid Period -> 7 days ago"
     end
   end
 
   def index_measurements_public_sensor
-    @sensor = Sensor.find_by_id(params[:sensor_id])
     if @sensor.public == true
-      @measurements = Measurement.joins(:sensor).where("sensors.id = #{params[:sensor_id]}")
+      @measurements = @sensor.measurements
       if params[:format].nil? or params[:format] == "1_week"
         @data = @measurements.where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
         @label = "1 Week Ago"
@@ -127,7 +112,6 @@ class MeasurementsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_measurement
       @measurement = @sensor.measurements.find(params[:id])
-      #@measurement = Measurement.find(params[:id])
     end
 
     def get_sensor
