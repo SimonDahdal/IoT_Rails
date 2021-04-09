@@ -61,6 +61,25 @@ class SensorsController < ApplicationController
     end
   end
 
+  def upload
+    uploaded_file = params[:firmware_file]
+    File.open(Rails.root.join('public', 'uploads', "#{params[:sensor_id]}_#{uploaded_file.original_filename}"), 'wb') do |file|
+      file.write(uploaded_file.read)
+    end
+    sensor=Sensor.find(params[:sensor_id])
+    sensor.firmware=uploaded_file.original_filename
+    if sensor.save!
+      redirect_to sensor_path(params[:sensor_id]), notice: 'Firmware was successfully updated.'
+    else
+      redirect_to sensor_path(params[:sensor_id]), notice: 'Firmware wasn\'t successfully updated.'
+    end
+  end
+  def download
+    send_file("#{Rails.root}/public/uploads/#{params[:sensor_id]}_#{params[:firmware]}")
+  end
+
+
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_sensor
