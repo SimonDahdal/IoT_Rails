@@ -50,7 +50,7 @@
         <td><%= link_to 'Show', sensor %></td>
         <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
         <td><%= link_to 'Destroy', sensor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'Measurements', "sensor/#{sensor.id}/measurements"%></td>
+        <td><%= link_to 'Measurements', sensor_measurements_path(sensor) %></td>
       </tr>
     <% end %>
   </tbody>

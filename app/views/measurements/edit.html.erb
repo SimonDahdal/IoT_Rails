@@ -1,6 +1,6 @@
-<h1>Editing Measurement</h1>
+<h1>Editing Measurement for sensor <%= @sensor.URI %></h1>
 
 <%= render 'form', measurement: @measurement %>
 
-<%= link_to 'Show', @measurement %> |
-<%= link_to 'Back', measurement_path %>
+<%= link_to 'Show', [@sensor, @measurement] %> |
+<%= link_to 'Back', sensor_measurements_path(@sensor) %>
