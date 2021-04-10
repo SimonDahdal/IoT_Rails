@@ -8,7 +8,8 @@ class SensorsController < ApplicationController
   end
 
   def public_sensors_index
-    @sensors = Sensor.where('public = true')
+    #@sensors = Sensor.where('public = true')
+    @sensors=Sensor.all_public
   end
 
   # GET /sensors/1 or /sensors/1.json

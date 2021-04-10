@@ -67,7 +67,7 @@ class MeasurementsController < ApplicationController
     #mp1 = measurement_params.merge(sensor_id: sid)
     #mp2 = mp1.extract!(:sensor_uri)
     #@measurement = Measurement.new(mp1)
-    @sensor = Sensor.where(URI: measurement_params[:sensor_uri]).first
+    @sensor = Sensor.find_by_URI(measurement_params[:sensor_uri])
     @measurement = @sensor.measurements.build(measurement_params.except(:sensor_uri))
     create_respond
   end
