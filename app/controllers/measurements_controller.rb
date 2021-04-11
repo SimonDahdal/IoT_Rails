@@ -5,10 +5,6 @@ class MeasurementsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create_by_sensor]
   # GET /measurements or /measurements.json
   #
-  # def index
-  #  @measurements = Measurement.joins(:sensor).where("sensors.public = 'true'")
-  # end
-
   def index
     @measurements = @sensor.measurements
     @data = @measurements.chart_data(params[:format])

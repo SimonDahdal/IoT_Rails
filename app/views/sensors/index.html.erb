@@ -1,80 +1,52 @@
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js">
-</script>
-
-<style>
-.map-wrap {         
-   border: 3px solid #000;         
-   width: 400px;         
-   height: 400px;   
-}   
-#map {         
-   width: 400px;         
-   height: 400px;   
-}
-</style>
-
-
-<p id="notice"><%= notice %></p>
-
 <h1>Your Sensors</h1>
-<br>
-<table class="table table-striped table-bordered table-hover">
-  <thead class="thead-dark">
-    <tr>
-      <th>Uri</th>
-      <th>Sensor type</th>
-      <th>Public</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th>Firmware</th>
-      <th>Notifica down</th>
-      <th>Tdown</th>
-      <th>Measure unit</th>
-      <th colspan="5"></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @sensors.each do |sensor| %>
-      <tr>
-        <td><%= sensor.URI %></td>
-        <td><%= sensor.sensor_type %></td>
-        <td><%= sensor.public %></td>
-        <td><%= sensor.latitude %></td>
-        <td><%= sensor.longitude %></td>
-        <td><%= sensor.firmware %></td>
-        <td><%= sensor.notifica_down %></td>
-        <td><%= sensor.tdown %></td>
-        <td><%= sensor.measure_unit %></td>
-        <td><%= link_to 'Show', sensor %></td>
-        <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
-        <td><%= link_to 'Destroy', sensor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'Measurements', sensor_measurements_path(sensor) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Sensor', new_sensor_path, class:"btn btn-primary"%>
-
-<br>
-<br>
-
-<div id='map'>
-  <script type="text/javascript">
-    var map = L.map('map').setView([<%=@sensors[0].latitude%>,<%=@sensors[0].longitude%>], 13);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    <% @sensors.each do |sensor| %>
-    L.marker([<%=sensor.latitude%>,<%=sensor.longitude%>]).addTo(map)
-    .bindPopup('<%=sensor.URI%>')
-    .openPopup();
-    <% end %>
-  </script>
+<div id="context-filter-accordion">
+    <%= render 'contextFilter'%>
 </div>
+
+<br>
+<div id="table">
+    <table class="table table-striped table-bordered table-hover table-responsive">
+        <thead class="thead-dark">
+        <tr>
+            <th>Uri</th>
+            <th>Sensor type</th>
+            <th>Public</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Firmware</th>
+            <th>Notifica down</th>
+            <th>Tdown</th>
+            <th>Measure unit</th>
+            <th colspan="5"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @sensors.each do |sensor| %>
+            <tr>
+                <td><%= sensor.URI %></td>
+                <td><%= sensor.sensor_type %></td>
+                <td><%= sensor.public %></td>
+                <td><%= sensor.latitude %></td>
+                <td><%= sensor.longitude %></td>
+                <td><%= sensor.firmware %></td>
+                <td><%= sensor.notifica_down %></td>
+                <td><%= sensor.tdown %></td>
+                <td><%= sensor.measure_unit %></td>
+                <td><%= link_to 'Show', sensor %></td>
+                <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
+                <td><%= link_to 'Destroy', sensor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <td><%= link_to 'Measurements', sensor_measurements_path(sensor) %></td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>
+
+<br>
+
+<%= link_to 'New Sensor', new_sensor_path, class: "btn btn-primary" %>
+
+<br>
+<br>
