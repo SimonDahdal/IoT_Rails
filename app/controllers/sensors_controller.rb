@@ -89,6 +89,10 @@ class SensorsController < ApplicationController
     send_file("#{Rails.root}/public/uploads/#{params[:sensor_id]}_#{params[:firmware]}")
   end
 
+  def types
+    @types = Sensor.order(:sensor_type).distinct.pluck(:sensor_type)
+  end
+
 
 
   private

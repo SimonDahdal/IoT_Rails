@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :sensors do
     resources :measurements
+    collection do
+      get :types
+    end
   end
   devise_for :users
   get 'home/index'
