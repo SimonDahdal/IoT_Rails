@@ -4,7 +4,11 @@
   <strong>Uri:</strong>
   <%= @sensor.URI %>
 </p>
-
+<%if @alarm then%>
+<p>
+    <strong style="color: red;">AVVISO ASSENZA MISURE RECENTI</strong>
+</p>
+<%end %>
 <p>
   <strong>Sensor type:</strong>
   <%= @sensor.sensor_type %>
