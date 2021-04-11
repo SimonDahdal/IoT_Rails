@@ -13,6 +13,14 @@ class MeasurementsController < ApplicationController
     @measurements = @sensor.measurements
     @data = @measurements.chart_data(params[:format])
     @label = str_label(params[:format])
+    @alarm=false
+    if @sensor.notifica_down
+    then
+      @recent=@sensor.measurements.recent(@sensor.tdown.seconds.ago)
+      if @recent.blank?
+        then @alarm=true
+      end
+    end
   end
 
   def index_measurements_public_sensor

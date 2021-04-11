@@ -5,7 +5,11 @@
     <h4 class="mr-5"> URI : <%= @sensor.URI %> </h4>
     <h4 class="mr-4">  Sensor type : <%= @sensor.sensor_type %> </h4>
 </div>
-
+<%if @alarm then%>
+<div>
+    <strong style="color: red;">AVVISO ASSENZA MISURE RECENTI</strong>
+</div>
+<%end %>
 <h3> <%= @label %> </h3>
 <div class="container border border-secondary m-2 p-4">
     <%= line_chart @data %>
