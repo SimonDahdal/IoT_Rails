@@ -9,6 +9,14 @@ class MeasurementsController < ApplicationController
     @measurements = @sensor.measurements
     @data = @measurements.chart_data(params[:format])
     @label = str_label(params[:format])
+    @alarm=false
+    if @sensor.notifica_down
+    then
+      @recent=@sensor.measurements.recent(@sensor.tdown.seconds.ago)
+      if @recent.blank?
+        then @alarm=true
+      end
+    end
   end
 
   def index_measurements_public_sensor
@@ -63,7 +71,7 @@ class MeasurementsController < ApplicationController
     #mp1 = measurement_params.merge(sensor_id: sid)
     #mp2 = mp1.extract!(:sensor_uri)
     #@measurement = Measurement.new(mp1)
-    @sensor = Sensor.where(URI: measurement_params[:sensor_uri]).first
+    @sensor = Sensor.find_by_URI(measurement_params[:sensor_uri])
     @measurement = @sensor.measurements.build(measurement_params.except(:sensor_uri))
     create_respond
   end

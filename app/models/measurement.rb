@@ -7,6 +7,8 @@ class Measurement < ApplicationRecord
 
   scope :index_by_sensor , -> (sensor_id){ where("sensor_id = ?", sensor_id)}
 
+  scope :recent, ->(time){ where("timestamp > ?", time)}
+
   scope :chart_data, -> (format) {
       if format.nil? or format == "1_week"
         where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)

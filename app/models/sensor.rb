@@ -7,4 +7,6 @@ class Sensor < ApplicationRecord
   has_many :measurements, dependent: :destroy
 
   validates_associated :user
+
+  scope :all_public , -> { where("public = ?", true)}
 end
