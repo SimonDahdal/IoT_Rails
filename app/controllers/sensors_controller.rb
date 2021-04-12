@@ -8,11 +8,22 @@ class SensorsController < ApplicationController
   end
 
   def public_sensors_index
-    @sensors = Sensor.where('public = true')
+    #@sensors = Sensor.where('public = true')
+    @sensors=Sensor.all_public
   end
 
   # GET /sensors/1 or /sensors/1.json
   def show
+    #per visualizzare avviso in caso di down
+    @alarm=false
+    if @sensor.notifica_down
+    then
+      @recent=@sensor.measurements.recent(@sensor.tdown.seconds.ago)
+      if @recent.blank?
+        then @alarm=true
+      end
+    end
+
   end
 
   # GET /sensors/new
@@ -60,6 +71,29 @@ class SensorsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def upload
+    uploaded_file = params[:firmware_file]
+    File.open(Rails.root.join('public', 'uploads', "#{params[:sensor_id]}_#{uploaded_file.original_filename}"), 'wb') do |file|
+      file.write(uploaded_file.read)
+    end
+    sensor=Sensor.find(params[:sensor_id])
+    sensor.firmware=uploaded_file.original_filename
+    if sensor.save!
+      redirect_to sensor_path(params[:sensor_id]), notice: 'Firmware was successfully updated.'
+    else
+      redirect_to sensor_path(params[:sensor_id]), notice: 'Firmware wasn\'t successfully updated.'
+    end
+  end
+  def download
+    send_file("#{Rails.root}/public/uploads/#{params[:sensor_id]}_#{params[:firmware]}")
+  end
+
+  def types
+    @types = Sensor.order(:sensor_type).distinct.pluck(:sensor_type)
+  end
+
+
 
   private
   # Use callbacks to share common setup or constraints between actions.

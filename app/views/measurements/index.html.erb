@@ -1,6 +1,29 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Measurements</h1>
+<div class="d-flex justify-content-start">
+    <h4 class="mr-5">Measurements of Sensor : #<%= @sensor.id %>  </h4>
+    <h4 class="mr-5"> URI : <%= @sensor.URI %> </h4>
+    <h4 class="mr-4">  Sensor type : <%= @sensor.sensor_type %> </h4>
+</div>
+<%if @alarm then%>
+<div>
+    <strong style="color: red;">AVVISO ASSENZA MISURE RECENTI</strong>
+</div>
+<%end %>
+<h3> <%= @label %> </h3>
+<div class="container border border-secondary m-2 p-4">
+    <%= line_chart @data %>
+</div>
+
+<div class="container-fluid ">
+    <span class="d-flex justify-content-center">
+        <%= link_to "24 hours", sensor_measurements_path(@sensor, :format => "24_hours"), class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link m-2" %>
+        <%= link_to "1 month", sensor_measurements_path(@sensor, :format => "1_month"), class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link m-2" %>
+        <%= link_to "1 week", sensor_measurements_path(@sensor, :format => "1_week"), class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link m-2" %>
+        <%= link_to "Full",  sensor_measurements_path(@sensor, :format => "full"), class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link m-2" %>
+    </span>
+</div>
+
 
 <table>
   <thead>
@@ -16,9 +39,9 @@
       <tr>
         <td><%= measurement.timestamp.in_time_zone("Paris") %></td>
         <td><%= measurement.value %></td>
-        <td><%= link_to 'Show', measurement %></td>
-        <td><%= link_to 'Edit', edit_measurement_path(measurement) %></td>
-        <td><%= link_to 'Destroy', measurement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [@sensor, measurement] %></td>
+        <td><%= link_to 'Edit', edit_sensor_measurement_path(@sensor, measurement) %></td>
+        <td><%= link_to 'Destroy', [@sensor, measurement], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +49,4 @@
 
 <br>
 
-<%= link_to 'New Measurement', new_measurement_path %>
+<%= link_to 'New Measurement', new_sensor_measurement_path(@sensor) %>

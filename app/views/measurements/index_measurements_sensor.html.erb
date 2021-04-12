@@ -1,8 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Measurements of Sensor #<%= @sensor.id %></h1>
-<h2> URI : <%= @sensor.URI %></h2>
-<h2>  Sensor type : <%= @sensor.sensor_type %> </h2>
+<div class="d-flex justify-content-start">
+    <h4 class="mr-5">Measurements of Sensor : #<%= @sensor.id %>  </h4>
+    <h4 class="mr-5"> URI : <%= @sensor.URI %> </h4>
+    <h4 class="mr-4">  Sensor type : <%= @sensor.sensor_type %> </h4>
+</div>
+
+<h3> <%= @label %> </h3>
+<div class="container border border-secondary m-2 p-4">
+    <%= line_chart @data %>
+</div>
+
+<div class="container-fluid ">
+    <span class="d-flex justify-content-center">
+        <%= link_to "24 hours", "/sensors/#{@sensor.id}/measurements/24_hours", class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link m-2" %>
+        <%= link_to "1 month", "/sensors/#{@sensor.id}/measurements/1_month", class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link m-2" %>
+        <%= link_to "1 week", "/sensors/#{@sensor.id}/measurements/1_week", class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link m-2" %>
+        <%= link_to "Full", "/sensors/#{@sensor.id}/measurements/full", class: "form-inline my-2 my-lg-0 btn btn-primary stretched-link m-2" %>
+    </span>
+</div>
 
 <table>
   <thead>
@@ -28,4 +44,6 @@
 
 <br>
 
-<%= link_to 'New Measurement', new_measurement_path %>
+<%# ---------DELETE da togliere dopo perche' non si devono aggiungere a mano --------%>
+<%= link_to 'New Measurement', new_sensor_measurement_path %>
+
