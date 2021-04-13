@@ -5,6 +5,7 @@ class SensorsController < ApplicationController
   # GET /sensors or /sensors.json
   def index
     @sensors = current_user.sensors
+    @types = current_user.sensors.order(:sensor_type).distinct.pluck(:sensor_type)
   end
 
   def public_sensors_index
@@ -90,7 +91,7 @@ class SensorsController < ApplicationController
   end
 
   def types
-    @types = Sensor.order(:sensor_type).distinct.pluck(:sensor_type)
+    @types = current_user.sensor.order(:sensor_type).distinct.pluck(:sensor_type)
   end
 
 

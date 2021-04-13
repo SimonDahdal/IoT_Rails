@@ -3,7 +3,8 @@
         <div class="card-header" id="headingOne">
             <h5 class="mb-0">
                 <button id="types-button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <%= link_to 'Sensor type', types_sensors_path, remote: true %>
+                    Sensor Type
+                   <!-- # link_to 'Sensor type', types_sensors_path, remote:true-->
                 </button>
             </h5>
         </div>
@@ -11,6 +12,7 @@
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
                 <div id="types">
+                    <%= render 'types' %>
                 </div>
             </div>
         </div>
