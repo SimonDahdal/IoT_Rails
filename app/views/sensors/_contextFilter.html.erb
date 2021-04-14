@@ -4,8 +4,11 @@
             <h5 class="mb-0">
                 <button id="types-button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     Sensor Type
-                   <!-- # link_to 'Sensor type', types_sensors_path, remote:true-->
+                    <!-- # link_to 'Sensor type', types_sensors_path, remote:true-->
                 </button>
+                <% if @checked.size > 0 %>
+                    <small class="text-muted">filtered: <%= @checked %></small>
+                <% end %>
             </h5>
         </div>
 

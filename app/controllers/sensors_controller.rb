@@ -5,7 +5,9 @@ class SensorsController < ApplicationController
   # GET /sensors or /sensors.json
   def index
     @sensors = current_user.sensors
-    @types = current_user.sensors.order(:sensor_type).distinct.pluck(:sensor_type)
+    @types = @sensors.order(:sensor_type).distinct.pluck(:sensor_type)
+    @sensors = @sensors.filter_by_type(params[:sensor_types]) if params[:sensor_types].present?
+    @checked = params[:sensor_types].present? ? params[:sensor_types] : []
   end
 
   def public_sensors_index

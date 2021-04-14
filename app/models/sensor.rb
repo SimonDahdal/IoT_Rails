@@ -8,5 +8,7 @@ class Sensor < ApplicationRecord
 
   validates_associated :user
 
-  scope :all_public , -> { where("public = ?", true)}
+  scope :all_public, -> { where("public = ?", true) }
+
+  scope :filter_by_type, -> (types) { where :sensor_type => types}
 end
