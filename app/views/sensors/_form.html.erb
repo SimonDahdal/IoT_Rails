@@ -36,10 +36,16 @@
     <%= form.text_field :longitude %>
   </div>
 
+  <%if params[:action] == 'new' then %>
   <div class="field">
-    <%= form.label :firmware %>
-    <%= form.text_field :firmware %>
+      Se desidera aggiungere un firmware per questo sensore lo potrà fare nell'apposito form dopo la creazione
+    <%= form.hidden_field :firmware %>
   </div>
+  <%end%>
+    <%if params[:action] == 'edit' then %>
+        <div> <%= link_to 'firmaware aggiornabile in apposito form nella pagina del sensore', sensor_path(@sensor) %>
+        </div>
+    <%end%>
 
   <div class="field">
     <%= form.label :notifica_down %>

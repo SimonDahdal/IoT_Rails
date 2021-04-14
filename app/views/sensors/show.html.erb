@@ -29,6 +29,7 @@
   <%= @sensor.longitude %>
 </p>
 
+<%if @sensor.firmware.present? then %>
 <p>
   <strong>Firmware:</strong>
   <%= @sensor.firmware %>
@@ -38,7 +39,9 @@
         <%= form.submit "Scarica file" %>
     <% end %>
 </p>
-
+<%else %>
+    <p>Nessun firmware è stato caricato per questo sensore tramite l'applicazione</p>
+<%end% %>
 <p>
   <strong>Notifica down:</strong>
   <%= @sensor.notifica_down %>
@@ -54,7 +57,7 @@
   <%= @sensor.measure_unit %>
 </p>
 
-<h2>Aggiorna firmware</h2>
+<h2>Carica/Aggiorna firmware</h2>
 <div id="update_firmware">
     <%= form_with url: "/sensors/#{@sensor.id}/upload", multipart: true do |form| %>
         <%= form.file_field :firmware_file %>
