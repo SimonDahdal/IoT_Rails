@@ -35,7 +35,7 @@
   </thead>
 
   <tbody>
-    <% @measurements.each do |measurement| %>
+    <% @measurements.order_most_recent.each do |measurement| %>
       <tr>
         <td><%= measurement.timestamp.in_time_zone("Paris") %></td>
         <td><%= measurement.value %></td>
