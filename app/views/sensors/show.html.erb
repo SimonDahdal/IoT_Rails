@@ -51,12 +51,22 @@
   <strong>Tdown:</strong>
   <%= @sensor.tdown %>
 </p>
-
+<p>
+    <%if @sensor.measurements.blank? then %>
+    <strong>Non ci sono ancora misure</strong>
+    <%else %>
+    <strong>Last Measure:</strong>
+    <%= @sensor.measurements.last_measure.value %>
+    <%end %>
+</p>
 <p>
   <strong>Measure unit:</strong>
   <%= @sensor.measure_unit %>
 </p>
 
+<%= link_to 'Edit', edit_sensor_path(@sensor) %> |
+<%= link_to 'Back', sensors_path %>
+<br/>
 <h2>Carica/Aggiorna firmware</h2>
 <div id="update_firmware">
     <%= form_with url: "/sensors/#{@sensor.id}/upload", multipart: true do |form| %>
@@ -71,5 +81,4 @@
     <%= render @sensor.measurements %>
 </div>
 
-<%= link_to 'Edit', edit_sensor_path(@sensor) %> |
-<%= link_to 'Back', sensors_path %>
+

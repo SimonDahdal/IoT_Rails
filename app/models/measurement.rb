@@ -9,6 +9,8 @@ class Measurement < ApplicationRecord
 
   scope :recent, ->(time){ where("timestamp > ?", time)}
 
+  scope :last_measure, ->{ order("timestamp DESC").first}
+
   scope :chart_data, -> (format) {
       if format.nil? or format == "1_week"
         where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
