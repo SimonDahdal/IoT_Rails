@@ -12,7 +12,7 @@ class Sensor < ApplicationRecord
 
   scope :filter_by_sensor_types, -> (types) { where :sensor_type => types }
   scope :filter_by_position, -> (position, radius) {
-    radius ||= 10
+    radius ||= 20
     near(position, radius, units: 'km')
   }
   scope :filter_by_public, -> { where("public = ?", true) }
