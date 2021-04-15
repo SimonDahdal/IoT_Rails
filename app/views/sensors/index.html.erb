@@ -3,7 +3,6 @@
 <div id="context-filter-accordion">
     <%= render 'contextFilter'%>
 </div>
-
 <br>
 <div id="table">
     <table class="table table-striped table-bordered table-hover table-responsive">
@@ -12,8 +11,7 @@
             <th>Uri</th>
             <th>Sensor type</th>
             <th>Public</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
+            <th>Position</th>
             <th>Firmware</th>
             <th>Notifica down</th>
             <th>Tdown</th>
@@ -29,8 +27,7 @@
                 <td><%= sensor.URI %></td>
                 <td><%= sensor.sensor_type %></td>
                 <td><%= sensor.public %></td>
-                <td><%= sensor.latitude %></td>
-                <td><%= sensor.longitude %></td>
+                <td><%= sensor.position %> <br> [<%= sensor.latitude %>,<%= sensor.longitude %>]</td>
                 <td><%= sensor.firmware %></td>
                 <td><%= sensor.notifica_down %></td>
                 <td><%= sensor.tdown %></td>

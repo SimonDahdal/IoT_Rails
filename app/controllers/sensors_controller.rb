@@ -1,32 +1,49 @@
 class SensorsController < ApplicationController
-  before_action :authenticate_user!, except: [:public_sensors_index]
-  before_action :set_sensor, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!, except: [:public_sensors_index,:destroy_filter_and_index]
+  before_action :set_sensor, only: %i[ show edit update destroy]
+  before_action :clear_params, only: [:index,:public_sensors_index]
   # GET /sensors or /sensors.json
+
   def index
     @sensors = current_user.sensors
     @types = @sensors.order(:sensor_type).distinct.pluck(:sensor_type)
-    @sensors = @sensors.filter_by_type(params[:sensor_types]) if params[:sensor_types].present?
-    @checked = params[:sensor_types].present? ? params[:sensor_types] : []
+
+    filtering_params(params).each do |key, value|
+      session[key] = value if value.present?
+    end
+
+    @sensors = @sensors.filter_by_sensor_types(session[:sensor_types]) if session[:sensor_types].present?
+    @sensors = @sensors.filter_by_position(session[:position],session[:radius]) if session[:position].present?
+
+    @checked = session[:sensor_types].present? ? session[:sensor_types].compact.join(', ') : nil
+    @position = session[:position]
+    @radius = session[:radius]
+    @commit = params[:commit].split[2] if params[:commit].present?
+  end
+
+  def destroy_filter_and_index
+    session[:sensor_types]=nil
+    session[:position]=nil
+    session[:radius]=nil
+    redirect_to sensors_path
   end
 
   def public_sensors_index
-    #@sensors = Sensor.where('public = true')
-    @sensors=Sensor.all_public
+    @sensors = Sensor.filter_by_public
   end
 
   # GET /sensors/1 or /sensors/1.json
   def show
     #per visualizzare avviso in caso di down
-    @alarm=false
+    @alarm = false
     if @sensor.notifica_down
     then
-      @recent=@sensor.measurements.recent(@sensor.tdown.seconds.ago)
+      @recent = @sensor.measurements.recent(@sensor.tdown.seconds.ago)
       if @recent.blank?
-        then @alarm=true
+      then
+        @alarm = true
       end
     end
-
   end
 
   # GET /sensors/new
@@ -80,14 +97,15 @@ class SensorsController < ApplicationController
     File.open(Rails.root.join('public', 'uploads', "#{params[:sensor_id]}_#{uploaded_file.original_filename}"), 'wb') do |file|
       file.write(uploaded_file.read)
     end
-    sensor=Sensor.find(params[:sensor_id])
-    sensor.firmware=uploaded_file.original_filename
+    sensor = Sensor.find(params[:sensor_id])
+    sensor.firmware = uploaded_file.original_filename
     if sensor.save!
       redirect_to sensor_path(params[:sensor_id]), notice: 'Firmware was successfully updated.'
     else
       redirect_to sensor_path(params[:sensor_id]), notice: 'Firmware wasn\'t successfully updated.'
     end
   end
+
   def download
     send_file("#{Rails.root}/public/uploads/#{params[:sensor_id]}_#{params[:firmware]}")
   end
@@ -96,16 +114,22 @@ class SensorsController < ApplicationController
     @types = current_user.sensor.order(:sensor_type).distinct.pluck(:sensor_type)
   end
 
-
-
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_sensor
     @sensor = Sensor.find(params[:id])
+  end
+
+  def filtering_params(parameters)
+    parameters.slice(:sensor_types, :position, :radius)
   end
 
   # Only allow a list of trusted parameters through.
   def sensor_params
     params.require(:sensor).permit(:URI, :sensor_type, :public, :latitude, :longitude, :firmware, :notifica_down, :tdown, :measure_unit, :user_id)
+  end
+
+  def clear_params
+    params.compact_blank!
   end
 end
