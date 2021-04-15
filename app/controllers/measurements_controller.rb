@@ -24,7 +24,6 @@ class MeasurementsController < ApplicationController
       @measurements = @sensor.measurements
       @data = @measurements.chart_data(params[:format])
       @label = str_label(params[:format])
-
     else
       @measurements = nil
     end
