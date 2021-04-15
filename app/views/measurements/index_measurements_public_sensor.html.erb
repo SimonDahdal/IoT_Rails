@@ -13,10 +13,10 @@
 
 <div class="container-fluid ">
     <span class="d-flex justify-content-center">
-        <%= link_to "24 hours", "/sensor/#{@sensor.id}/measurements", :format => "24_hours", class: "form-inline my-2 my-lg-0 btn btn-primary  m-2" %>
-        <%= link_to "1 month", "/sensor/#{@sensor.id}/measurements", :format => "1_month", class: "form-inline my-2 my-lg-0 btn btn-primary  m-2" %>
-        <%= link_to "1 week", "/sensor/#{@sensor.id}/measurements", :format => "1_week", class: "form-inline my-2 my-lg-0 btn btn-primary m-2" %>
-        <%= link_to "Full", "/sensor/#{@sensor.id}/measurements" , :format => "full", class: "form-inline my-2 my-lg-0 btn btn-primary m-2" %>
+        public_sensor_measurements
+        <%= link_to "24 hours", public_sensor_measurements_path(:format => "24_hours"), class: "form-inline my-2 my-lg-0 btn btn-primary  m-2" %>
+        <%= link_to "1 week", public_sensor_measurements_path(:format => "1_week"), class: "form-inline my-2 my-lg-0 btn btn-primary  m-2" %>
+        <%= link_to "1 month", public_sensor_measurements_path(:format => "1_month"), class: "form-inline my-2 my-lg-0 btn btn-primary  m-2" %>
     </span>
 </div>
 
