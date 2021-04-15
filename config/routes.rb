@@ -19,9 +19,9 @@ Rails.application.routes.draw do
 
   post 'sensors/:sensor_id/upload', to: 'sensors#upload'
   post 'sensors/:sensor_id/download', to: 'sensors#download'
-
-
   post '/measurements.json', to: 'measurements#create_by_sensor'
+
+  get '/sensors_destroy_filter', to: 'sensors#destroy_filter_and_index'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

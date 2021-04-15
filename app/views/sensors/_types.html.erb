@@ -1,10 +1,11 @@
-<%= form_tag('/sensors', method: 'get') do %>
+<%= form_tag(request.env['PATH_INFO'], method: 'get') do %>
     <% @types.each do |type| %>
         <div class="form-check">
-            <%= check_box_tag('sensor_types[]',type,(@checked.include? type), class: "form-check-input") %>
+            <%= check_box_tag('sensor_types[]',type,@checked.nil? ? false : (@checked.include? type), class: "form-check-input") %>
             <%= label_tag(type, type, class: "form-check-label") %>
         </div>
     <% end %>
+
     <br>
-    <%= submit_tag("Search", class: "btn btn-secondary") %>
+    <%= submit_tag("Filter by type", class: "btn btn-secondary") %>
 <% end %>
