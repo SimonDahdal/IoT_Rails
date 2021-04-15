@@ -8,11 +8,11 @@ class Sensor < ApplicationRecord
   validates_associated :user
 
   reverse_geocoded_by :latitude, :longitude
-  after_validation :reverse_geocode if (:latitude_changed? or :longitude_changed?)
+  #after_validation :reverse_geocode if (:latitude_changed? or :longitude_changed?)
 
   scope :filter_by_sensor_types, -> (types) { where :sensor_type => types }
   scope :filter_by_position, -> (position, radius) {
-    radius ||= 20
+    radius ||= 10
     near(position, radius, units: 'km')
   }
   scope :filter_by_public, -> { where("public = ?", true) }
