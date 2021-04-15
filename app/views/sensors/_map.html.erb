@@ -21,7 +21,7 @@
             <% if !@radius.nil? %>
                 radius = <%=@radius%>
             <%else%>
-                radius = 10
+                radius = 20
             <%end %>
             L.circle(position, radius*1000).addTo(map);
         <% elsif @sensors.nil? or @sensors.empty? %>
@@ -33,11 +33,6 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-        var resizeObserver = new ResizeObserver(() => {
-            map.invalidateSize();
-        });
-        var mapDiv = document.getElementById("map")
-        resizeObserver.observe(mapDiv);
 
         var mark = [];
         var popup;
@@ -48,5 +43,12 @@
         popup.setContent('<%=sensor.URI%>');
         mark[<%=i%>].bindPopup(popup);
         <% end %>
+        var group = new L.featureGroup(mark);
+        var resizeObserver = new ResizeObserver(() => {
+            map.invalidateSize();
+            map.fitBounds(group.getBounds(),true);
+        });
+        var mapDiv = document.getElementById("map")
+        resizeObserver.observe(mapDiv);
     </script>
 </div>
