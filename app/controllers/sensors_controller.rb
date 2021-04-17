@@ -6,6 +6,7 @@ class SensorsController < ApplicationController
 
   def index
     @sensors = current_user.sensors
+    @sensors1 = @sensors.all_sensor_last_measurements
     @types = @sensors.order(:sensor_type).distinct.pluck(:sensor_type)
 
     filtering_params(params).each do |key, value|
@@ -14,14 +15,12 @@ class SensorsController < ApplicationController
 
     @sensors = @sensors.filter_by_sensor_types(session[:sensor_types]) if session[:sensor_types].present?
     @sensors = @sensors.filter_by_position(session[:position],session[:radius]) if session[:position].present?
-    @sensors = @sensors.all_sensor_last_measurements
 
     @checked = session[:sensor_types].present? ? session[:sensor_types].compact.join(', ') : nil
     @position = session[:position]
     @radius = session[:radius]
     @commit = params[:commit].split[2] if params[:commit].present?
 
-    @sensors.all_sensor_last_measurements
   end
 
   def destroy_filter_and_index
