@@ -17,6 +17,7 @@
             <th>Tdown</th>
             <th>Last measure</th>
             <th>Measure unit</th>
+            <th>Misura Assente</th>
             <th colspan="5"></th>
         </tr>
         </thead>
@@ -37,10 +38,23 @@
                 <td><%= sensor.measurements.last_measure.value %></td>
                 <% end %>
                 <td><%= sensor.measure_unit %></td>
+                <%
+                   if sensor.notifica_down
+                   then
+                     recent = sensor.measurements.recent(sensor.tdown.hours.ago)
+                     if recent.blank?
+                %>
+                        <td style="color: #ff0000" >Ass.</td>
+                  <% else %>
+                        <td>NO</td>
+                  <% end %>
+
+                <% end %>
                 <td><%= link_to 'Show', sensor %></td>
                 <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
                 <td><%= link_to 'Destroy', sensor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                 <td><%= link_to 'Measurements', sensor_measurements_path(sensor) %></td>
+
             </tr>
         <% end %>
         </tbody>

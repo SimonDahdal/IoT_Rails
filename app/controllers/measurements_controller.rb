@@ -12,7 +12,7 @@ class MeasurementsController < ApplicationController
     @alarm=false
     if @sensor.notifica_down
     then
-      @recent=@sensor.measurements.recent(@sensor.tdown.seconds.ago)
+      @recent=@sensor.measurements.recent(@sensor.tdown.hours.ago)
       if @recent.blank?
         then @alarm=true
       end
