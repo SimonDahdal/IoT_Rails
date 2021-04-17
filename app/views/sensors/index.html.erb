@@ -14,7 +14,7 @@
             <th>Position</th>
             <th>Firmware</th>
             <th>Notifica down</th>
-            <th>Tdown</th>
+            <th>Tdown (ore)</th>
             <th>Last measure</th>
             <th>Measure unit</th>
             <th>Misura Assente</th>
@@ -48,7 +48,8 @@
                   <% else %>
                         <td>NO</td>
                   <% end %>
-
+                  <%else %>
+                        <td>-</td>
                 <% end %>
                 <td><%= link_to 'Show', sensor %></td>
                 <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
