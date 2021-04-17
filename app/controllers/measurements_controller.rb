@@ -6,7 +6,7 @@ class MeasurementsController < ApplicationController
   # GET /measurements or /measurements.json
   #
   def index
-    @measurements = @sensor.measurements
+    @measurements = @sensor.measurements.order_most_recent
     @data = @measurements.chart_data(params[:format])
     @label = str_label(params[:format])
     @alarm=false

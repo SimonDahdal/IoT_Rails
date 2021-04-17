@@ -14,11 +14,14 @@ class SensorsController < ApplicationController
 
     @sensors = @sensors.filter_by_sensor_types(session[:sensor_types]) if session[:sensor_types].present?
     @sensors = @sensors.filter_by_position(session[:position],session[:radius]) if session[:position].present?
+    @sensors = @sensors.all_sensor_last_measurements
 
     @checked = session[:sensor_types].present? ? session[:sensor_types].compact.join(', ') : nil
     @position = session[:position]
     @radius = session[:radius]
     @commit = params[:commit].split[2] if params[:commit].present?
+
+    @sensors.all_sensor_last_measurements
   end
 
   def destroy_filter_and_index
@@ -34,6 +37,7 @@ class SensorsController < ApplicationController
 
   # GET /sensors/1 or /sensors/1.json
   def show
+    @last=@sensor.measurements.last_measure
     #per visualizzare avviso in caso di down
     @alarm = false
     if @sensor.notifica_down
@@ -44,6 +48,7 @@ class SensorsController < ApplicationController
         @alarm = true
       end
     end
+    @measurements=@sensor.measurements.order_most_recent
   end
 
   # GET /sensors/new
@@ -94,7 +99,7 @@ class SensorsController < ApplicationController
 
   def upload
     uploaded_file = params[:firmware_file]
-    File.open(Rails.root.join('public', 'uploads', "#{params[:sensor_id]}_#{uploaded_file.original_filename}"), 'wb') do |file|
+    File.open(Rails.root.join('app','assets', 'uploads', "#{params[:sensor_id]}_#{uploaded_file.original_filename}"), 'wb') do |file|
       file.write(uploaded_file.read)
     end
     sensor = Sensor.find(params[:sensor_id])
@@ -107,7 +112,7 @@ class SensorsController < ApplicationController
   end
 
   def download
-    send_file("#{Rails.root}/public/uploads/#{params[:sensor_id]}_#{params[:firmware]}")
+    send_file("#{Rails.root}/app/assets/uploads/#{params[:sensor_id]}_#{params[:firmware]}")
   end
 
   def types

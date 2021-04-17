@@ -37,7 +37,7 @@
         var mark = [];
         var popup;
 
-        <% @sensors.each_with_index do |sensor,i| %>
+        <% @sensors.each do |sensor,i| %>
         popup = new L.Popup();
         mark.push(L.marker([<%=sensor.latitude%>, <%=sensor.longitude%>]).addTo(map))
         popup.setContent('<%=sensor.URI%>');

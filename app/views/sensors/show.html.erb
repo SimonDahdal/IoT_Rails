@@ -52,11 +52,11 @@
   <%= @sensor.tdown %>
 </p>
 <p>
-    <%if @sensor.measurements.blank? then %>
+    <%if @last.blank? then %>
     <strong>Non ci sono ancora misure</strong>
     <%else %>
     <strong>Last Measure:</strong>
-    <%= @sensor.measurements.last_measure.value %>
+    <%= @last.value %>
     <%end %>
 </p>
 <p>
@@ -78,7 +78,7 @@
 
 <h2>Misure</h2>
 <div id="measurements">
-    <%= render @sensor.measurements.order_most_recent %>
+    <%= render @measurements %>
 </div>
 
 
