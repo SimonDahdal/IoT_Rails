@@ -24,6 +24,7 @@
 
         <tbody>
         <% @sensors.each do |sensor| %>
+            <% measure = @sensors1.select { |sensor1| sensor1.id == sensor.id }.first%>
             <tr>
                 <td><%= sensor.URI %></td>
                 <td><%= sensor.sensor_type %></td>
@@ -32,17 +33,16 @@
                 <td><%= sensor.firmware %></td>
                 <td><%= sensor.notifica_down %></td>
                 <td><%= sensor.tdown %></td>
-                <%if sensor.measurements.blank? then %>
+                <%if measure.blank? then %>
                 <td>nessuna misura</td>
                 <% else %>
-                <td><%= sensor.measurements.last_measure.value %></td>
+                <td><%= measure.value %></td>
                 <% end %>
                 <td><%= sensor.measure_unit %></td>
                 <%
                    if sensor.notifica_down
                    then
-                     recent = sensor.measurements.recent(sensor.tdown.hours.ago)
-                     if recent.blank?
+                     if measure.timestamp.blank? || measure.timestamp<sensor.tdown.hours.ago
                 %>
                         <td style="color: #ff0000" >Ass.</td>
                   <% else %>

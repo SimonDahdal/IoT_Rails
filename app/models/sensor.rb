@@ -17,6 +17,8 @@ class Sensor < ApplicationRecord
   }
   scope :filter_by_public, -> { where("public = ?", true) }
 
+  scope :all_sensor_last_measurements, -> {joins(:measurements).select("DISTINCT ON (sensor_id) sensors.*, value, timestamp").order("sensor_id", "timestamp DESC")}
+
   def position
     result = Geocoder.search([self.latitude,self.longitude]).first
     result.nil? ? "No address found" : result.address
