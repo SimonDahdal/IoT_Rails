@@ -42,7 +42,7 @@
                 <%
                    if sensor.notifica_down
                    then
-                     if !measure.nil?
+                     if !measure.blank?
                        if measure.timestamp.blank? || measure.timestamp < sensor.tdown.hours.ago
                 %>
                         <td style="color: #ff0000" >Ass.</td>
@@ -50,11 +50,10 @@
                         <td>NO</td>
                      <%
                         end
+                        else%>
+                        <td style="color: #ff0000" >Ass.</td>
 
-
-                    else %>
-                        <td>-</td>
-                <% end end
+                 <%end else %><td>-</td><%end
                  %>
                 <td><%= link_to 'Show', sensor %></td>
                 <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
