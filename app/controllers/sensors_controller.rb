@@ -6,6 +6,8 @@ class SensorsController < ApplicationController
 
   def index
     @sensors = current_user.sensors
+    #per via di sensors 1 che contiene le ultime misure, sensors potrebbe sembrare ridondante,
+    # ma sensors1 per come è costruito non avrebbe i sensori senza misure.
     @sensors1 = @sensors.all_sensor_last_measurements
     @types = @sensors.order(:sensor_type).distinct.pluck(:sensor_type)
 
