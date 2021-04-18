@@ -42,7 +42,7 @@
                 <%
                    if sensor.notifica_down
                    then
-                     if !measure.blank?
+                     if !measure.nil?
                        if measure.timestamp.blank? || measure.timestamp < sensor.tdown.hours.ago
                 %>
                         <td style="color: #ff0000" >Ass.</td>
