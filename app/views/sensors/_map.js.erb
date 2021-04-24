@@ -1,0 +1,40 @@
+document.addEventListener("turbolinks:load", () => {
+    var map;
+    <% if !(@position.nil?)%>
+    var position = <%=get_coordinates_by_address(@position) %>;
+    map = L.map('map').setView(position, 13);
+    var radius;
+    <% if !@radius.nil? %>
+    radius = <%=@radius%>
+            <%else%>
+            radius = 20
+    <%end %>
+    L.circle(position, radius * 1000).addTo(map);
+    <% elsif @sensors.nil? or @sensors.empty? %>
+    map = L.map('map').setView([<%="44.83377627198407,11.598755176671702"%>], 13);
+    <% else %>
+    map = L.map('map').setView([<%=@sensors[0].latitude%>, <%=@sensors[0].longitude%>], 13);
+    <% end %>
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var mark = [];
+    var popup;
+
+    <% @sensors.each_with_index do |sensor,i| %>
+    popup = new L.Popup();
+    mark.push(L.marker([<%=sensor.latitude%>, <%=sensor.longitude%>]).addTo(map))
+    popup.setContent('<%=sensor.URI%>');
+    mark[<%=i%>].bindPopup(popup);
+    <% end %>
+    var group = new L.featureGroup(mark);
+    var resizeObserver = new ResizeObserver(() => {
+        map.invalidateSize();
+        map.fitBounds(group.getBounds(), true);
+    });
+    var mapDiv = document.getElementById("map")
+    resizeObserver.observe(mapDiv);
+});
+

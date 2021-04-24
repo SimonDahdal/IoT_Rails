@@ -1,7 +1,7 @@
 <h1>Your Sensors</h1>
 
 <div id="context-filter-accordion">
-    <%= render 'contextFilter'%>
+    <%= render 'contextFilter' %>
 </div>
 <br>
 <div id="table">
@@ -24,7 +24,7 @@
 
         <tbody>
         <% @sensors.each do |sensor| %>
-            <% measure = @sensors1.select { |sensor1| sensor1.id == sensor.id }.first%>
+            <% measure = @sensors1.select { |sensor1| sensor1.id == sensor.id }.first %>
             <tr>
                 <td><%= sensor.URI %></td>
                 <td><%= sensor.sensor_type %></td>
@@ -33,28 +33,30 @@
                 <td><%= sensor.firmware %></td>
                 <td><%= sensor.notifica_down %></td>
                 <td><%= sensor.tdown %></td>
-                <%if measure.blank? then %>
-                <td>nessuna misura</td>
+                <% if measure.blank? then %>
+                    <td>nessuna misura</td>
                 <% else %>
-                <td><%= measure.value %></td>
+                    <td><%= measure.value %></td>
                 <% end %>
                 <td><%= sensor.measure_unit %></td>
                 <%
-                   if sensor.notifica_down
-                   then
-                     if !measure.nil?
-                       if measure.timestamp.blank? || measure.timestamp < sensor.tdown.hours.ago
+                    if sensor.notifica_down
+                    then
+                      if !measure.nil?
+                        if measure.timestamp.blank? || measure.timestamp < sensor.tdown.hours.ago
                 %>
-                        <td style="color: #ff0000" >Ass.</td>
-                     <% else %>
-                        <td>NO</td>
-                     <%
-                        end
-                        else%>
-                        <td style="color: #ff0000" >Ass.</td>
+                            <td style="color: #ff0000">Ass.</td>
+                        <% else %>
+                            <td>NO</td>
+                        <%
+                            end
+                            else %>
+                        <td style="color: #ff0000">Ass.</td>
 
-                 <%end else %><td>-</td><%end
-                 %>
+                    <% end else %>
+                    <td>-</td>
+                <% end
+                %>
                 <td><%= link_to 'Show', sensor %></td>
                 <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
                 <td><%= link_to 'Destroy', sensor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -72,3 +74,7 @@
 
 <br>
 <br>
+
+<script>
+    <%= render(:partial => 'map', :handlers => [:erb], :formats => [:js])  %>
+</script>
