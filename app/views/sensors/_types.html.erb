@@ -1,7 +1,7 @@
 <%= form_tag(request.env['PATH_INFO'], method: 'get') do %>
     <% @types.each do |type| %>
         <div class="form-check">
-            <%= check_box_tag('sensor_types[]',type,@checked.nil? ? false : (@checked.include? type), class: "form-check-input") %>
+            <%= check_box_tag('sensor_types[]',type,checked.nil? ? false : (checked.include? type), class: "form-check-input") %>
             <%= label_tag(type, type, class: "form-check-label") %>
         </div>
     <% end %>

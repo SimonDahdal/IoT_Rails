@@ -6,8 +6,10 @@
                     Sensor Type
                     <!-- # link_to 'Sensor type', types_sensors_path, remote:true-->
                 </button>
-                <% unless @checked.nil? %>
-                    <small class="text-muted">filtered: <%= @checked %></small>
+                <% if session[:sensor_types].present?
+                     checked = session[:sensor_types].compact.join(', ')%>
+                    <small class="text-muted">filtered: <%= checked %></small>
+                    <%=  %>
                 <% end %>
             </h5>
         </div>
@@ -15,7 +17,7 @@
         <div id="collapseOne" class="collapse <%if @commit.eql?("type")%> show <%end %>" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
                 <div id="types">
-                    <%= render 'types' %>
+                    <%= render partial: 'types', locals: {checked: checked} %>
                 </div>
             </div>
         </div>
@@ -26,10 +28,12 @@
                 <button id="map-button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     Mappa
                 </button>
-                <% unless @position.nil? %>
-                    <small class="text-muted">filtered: <%= @position %>
-                        <% unless @radius.nil? %>
-                            , <%= @radius %> km
+                <% if session[:position].present?
+                    position = session[:position]
+                    radius = session[:radius] %>
+                    <small class="text-muted">filtered: <%=position %>
+                        <% unless radius.nil? %>
+                            , <%= radius %> km
                         <% end %>
                     </small>
                 <% end %>
@@ -58,7 +62,7 @@
 
                         </div>
                         <div class="col-8">
-                            <%= render 'map' %>
+                            <div id="SensorMap"></div>
                         </div>
                     </div>
                 </div>
@@ -80,6 +84,6 @@
         </div>
     </div>
 </div>
-<% unless @checked.nil? and @position.nil? %>
+<% unless checked.nil? and position.nil? %>
     <%= link_to 'Remove filter', sensors_destroy_filter_path %>
 <% end %>

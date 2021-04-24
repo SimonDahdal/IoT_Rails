@@ -17,10 +17,6 @@ class SensorsController < ApplicationController
 
     @sensors = @sensors.filter_by_sensor_types(session[:sensor_types]) if session[:sensor_types].present?
     @sensors = @sensors.filter_by_position(session[:position],session[:radius]) if session[:position].present?
-
-    @checked = session[:sensor_types].present? ? session[:sensor_types].compact.join(', ') : nil
-    @position = session[:position]
-    @radius = session[:radius]
     @commit = params[:commit].split[2] if params[:commit].present?
 
   end

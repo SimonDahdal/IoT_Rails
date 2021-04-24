@@ -76,5 +76,10 @@
 <br>
 
 <script>
-    <%= render(:partial => 'map', :handlers => [:erb], :formats => [:js])  %>
+    <% if session[:position].present?
+          position = session[:position]
+          radius = session[:radius] %>
+    <% end %>
+
+    <%= render(:partial => 'map', :handlers => [:erb], :formats => [:js], locals: {position: position, radius: radius})  %>
 </script>
