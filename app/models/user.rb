@@ -5,4 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :sensors
+  #notifiche
+  acts_as_target printable_name: :email
+
 end
