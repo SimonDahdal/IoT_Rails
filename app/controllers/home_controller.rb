@@ -3,6 +3,7 @@ class HomeController < ApplicationController
     #se utente loggato verifico se notificare i sensori con impostata la notifica down
     if user_signed_in?
       then
+      @notifications = current_user.unopened_notification_index_with_attributes
       @sensors = current_user.sensors
       @sensors1 = current_user.sensors.all_sensor_last_measurements
       message = "sensori down: \n"
@@ -27,6 +28,5 @@ class HomeController < ApplicationController
       @alert= alert
       flash.alert=message
     end
-    @notifications = current_user.unopened_notification_index_with_attributes
   end
 end
