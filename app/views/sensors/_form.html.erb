@@ -11,58 +11,89 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :URI %>
-    <%= form.text_field :URI %>
+  <div class="form-group row">
+      <%= form.label :URI, class:"col-sm-2 col-form-label font-weight-bold" %>
+      <div class="col-sm-5">
+          <%= form.text_field :URI , class: "form-control"%>
+      </div>
+
   </div>
 
-  <div class="field">
-    <%= form.label :sensor_type %>
-    <%= form.text_field :sensor_type %>
+  <div class="field form-group row">
+    <%= form.label :sensor_type , class:"col-sm-2 col-form-label font-weight-bold"%>
+      <div class="col-sm-5">
+
+      <%= form.text_field :sensor_type , class: "form-control"%>
+      </div>
   </div>
 
-  <div class="field">
-    <%= form.label :public %>
-    <%= form.check_box :public %>
+  <div class="field form-group row">
+    <%= form.label :public , class:"col-sm-2 col-form-label font-weight-bold"%>
+      <div class="col-sm-5">
+
+      <%= form.check_box :public%>
+      </div>
   </div>
 
-  <div class="field">
-    <%= form.label :latitude %>
-    <%= form.text_field :latitude %>
+  <div class="field form-group row">
+    <%= form.label :latitude , class:"col-sm-2 col-form-label font-weight-bold"%>
+
+      <div class="col-sm-5">
+
+      <%= form.text_field :latitude , class: "form-control"%>
+      </div>
   </div>
 
-  <div class="field">
-    <%= form.label :longitude %>
-    <%= form.text_field :longitude %>
+  <div class="field form-group row">
+    <%= form.label :longitude , class:"col-sm-2 col-form-label font-weight-bold"%>
+      <div class="col-sm-5">
+
+      <%= form.text_field :longitude , class: "form-control"%>
+      </div>
   </div>
 
-  <div class="field">
-    <%= form.label :firmware %>
-    <%= form.text_field :firmware %>
+  <div class="field form-group row">
+    <%= form.label :notifica_down , class:"col-sm-2 col-form-label font-weight-bold"%>
+      <div class="col-sm-5">
+
+      <%= form.check_box :notifica_down %>
+      </div>
   </div>
 
-  <div class="field">
-    <%= form.label :notifica_down %>
-    <%= form.check_box :notifica_down %>
+  <div class="field form-group row">
+    <%= form.label :tdown , class:"col-sm-2 col-form-label font-weight-bold"%>
+      <div class="col-sm-5">
+
+      <%= form.number_field :tdown , class: "form-control"%>
+      </div>
   </div>
 
-  <div class="field">
-    <%= form.label :tdown %>
-    <%= form.number_field :tdown %>
+  <div class="field form-group row">
+    <%= form.label :measure_unit , class:"col-sm-2 col-form-label font-weight-bold"%>
+      <div class="col-sm-5">
+
+      <%= form.text_field :measure_unit , class: "form-control" %>
+      </div>
   </div>
 
-  <div class="field">
-    <%= form.label :measure_unit %>
-    <%= form.text_field :measure_unit %>
-  </div>
+    <%if params[:action] == 'new' then %>
+        <div class="field form-group row col-sm-10 ">
+            Se desidera aggiungere un firmware per questo sensore lo potrà fare nell'apposito form dopo la creazione
+            <%= form.hidden_field :firmware %>
+        </div>
+    <%end%>
+    <%if params[:action] == 'edit' then %>
+        <div> <%= link_to 'firmaware aggiornabile in apposito form nella pagina del sensore', sensor_path(@sensor) %>
+        </div>
+    <%end%>
 
-    <div class="field">
+    <div class="field form-group row">
 
         <%= form.hidden_field :user_id,
         class:"form-control", value: current_user.id%>
     </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-secondary" %>
   </div>
 <% end %>

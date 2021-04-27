@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Uri:</strong>
   <%= @sensor.URI %>
@@ -29,6 +27,7 @@
   <%= @sensor.longitude %>
 </p>
 
+<%if @sensor.firmware.present? then %>
 <p>
   <strong>Firmware:</strong>
   <%= @sensor.firmware %>
@@ -38,23 +37,35 @@
         <%= form.submit "Scarica file" %>
     <% end %>
 </p>
-
+<%else %>
+    <p>Nessun firmware è stato caricato per questo sensore tramite l'applicazione</p>
+<%end %>
 <p>
   <strong>Notifica down:</strong>
   <%= @sensor.notifica_down %>
 </p>
 
 <p>
-  <strong>Tdown:</strong>
+  <strong>Tdown (ore):</strong>
   <%= @sensor.tdown %>
 </p>
-
+<p>
+    <%if @last.blank? then %>
+    <strong>Non ci sono ancora misure</strong>
+    <%else %>
+    <strong>Last Measure:</strong>
+    <%= @last.value %>
+    <%end %>
+</p>
 <p>
   <strong>Measure unit:</strong>
   <%= @sensor.measure_unit %>
 </p>
 
-<h2>Aggiorna firmware</h2>
+<%= link_to 'Edit', edit_sensor_path(@sensor) %> |
+<%= link_to 'Back', sensors_path %>
+<br/>
+<h2>Carica/Aggiorna firmware</h2>
 <div id="update_firmware">
     <%= form_with url: "/sensors/#{@sensor.id}/upload", multipart: true do |form| %>
         <%= form.file_field :firmware_file %>
@@ -65,8 +76,7 @@
 
 <h2>Misure</h2>
 <div id="measurements">
-    <%= render @sensor.measurements %>
+    <%= render @measurements %>
 </div>
 
-<%= link_to 'Edit', edit_sensor_path(@sensor) %> |
-<%= link_to 'Back', sensors_path %>
+

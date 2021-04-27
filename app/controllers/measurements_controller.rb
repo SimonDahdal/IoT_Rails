@@ -6,13 +6,13 @@ class MeasurementsController < ApplicationController
   # GET /measurements or /measurements.json
   #
   def index
-    @measurements = @sensor.measurements
+    @measurements = @sensor.measurements.order_most_recent
     @data = @measurements.chart_data(params[:format])
     @label = str_label(params[:format])
     @alarm=false
     if @sensor.notifica_down
     then
-      @recent=@sensor.measurements.recent(@sensor.tdown.seconds.ago)
+      @recent=@sensor.measurements.recent(@sensor.tdown.hours.ago)
       if @recent.blank?
         then @alarm=true
       end
@@ -22,25 +22,8 @@ class MeasurementsController < ApplicationController
   def index_measurements_public_sensor
     if @sensor.public == true
       @measurements = @sensor.measurements
-      if params[:format].nil? or params[:format] == "1_week"
-        @data = @measurements.where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
-        @label = "1 Week Ago"
-
-      elsif params[:format] == "24_hours"
-        @data = @measurements.where("timestamp > ?", 24.hours.ago).pluck(:timestamp, :value)
-        @label = "24 Hours Ago"
-
-      elsif params[:format] == "1_month"
-        @data = @measurements.where("timestamp > ?", 1.months.ago).pluck(:timestamp, :value)
-        @label = "1 Month Ago"
-
-      elsif params[:format] == "full"
-        @data = @measurements.pluck(:timestamp, :value)
-        @label = "Full Period"
-      else
-        @data = @measurements.where("timestamp > ?", 1.weeks.ago).pluck(:timestamp, :value)
-        @label = "Not valid Period -> 7 days ago"
-      end
+      @data = @measurements.chart_data(params[:format])
+      @label = str_label(params[:format])
     else
       @measurements = nil
     end

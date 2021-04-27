@@ -3,14 +3,21 @@
         <div class="card-header" id="headingOne">
             <h5 class="mb-0">
                 <button id="types-button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <%= link_to 'Sensor type', types_sensors_path, remote: true %>
+                    Sensor Type
+                    <!-- # link_to 'Sensor type', types_sensors_path, remote:true-->
                 </button>
+                <% if session[:sensor_types].present?
+                     checked = session[:sensor_types].compact.join(', ')%>
+                    <small class="text-muted">filtered: <%= checked %></small>
+                    <%=  %>
+                <% end %>
             </h5>
         </div>
 
-        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div id="collapseOne" class="collapse <%if @commit.eql?("type")%> show <%end %>" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
                 <div id="types">
+                    <%= render partial: 'types', locals: {checked: checked} %>
                 </div>
             </div>
         </div>
@@ -21,12 +28,43 @@
                 <button id="map-button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     Mappa
                 </button>
+                <% if session[:position].present?
+                    position = session[:position]
+                    radius = session[:radius] %>
+                    <small class="text-muted">filtered: <%=position %>
+                        <% unless radius.nil? %>
+                            , <%= radius %> km
+                        <% end %>
+                    </small>
+                <% end %>
             </h5>
         </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div id="collapseTwo" class="collapse <%if@commit.eql?("position")%>show<%end%>" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body">
-                <div id='map-collapse'>
-                    <%= render 'map' %>
+                <div id='map-collapse' class="container">
+                    <div class="row">
+                        <div class="col">
+                            <%= form_with url: request.env['PATH_INFO'], method: :get do |form| %>
+                                <div class="form-group">
+                                    <%= form.label :position, "Position:" %>
+                                    <%= form.text_field :position, class: "form-control", placeholder: "Search by position...", value:@position %>
+                                </div>
+                                <%= form.label :radius, "Radius:" %>
+                                <div class="input-group">
+                                    <%= form.number_field :radius, in: 1...10000, step: 1, class: 'form-control', value:@radius %>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">km</span>
+                                    </div>
+                                </div>
+                                <br>
+                                <%= form.submit "Filter by position", class: "btn btn-outline-success my-2 my-sm-0" %>
+                            <% end %>
+
+                        </div>
+                        <div class="col-8">
+                            <div id="SensorMap"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,3 +84,6 @@
         </div>
     </div>
 </div>
+<% unless checked.nil? and position.nil? %>
+    <%= link_to 'Remove filter', sensors_destroy_filter_path %>
+<% end %>

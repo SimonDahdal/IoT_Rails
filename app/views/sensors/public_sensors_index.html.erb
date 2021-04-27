@@ -13,6 +13,7 @@
       <th>Firmware</th>
       <th>Notifica down</th>
       <th>Tdown</th>
+      <th>Last measure</th>
       <th>Measure unit</th>
       <th colspan="4"></th>
     </tr>
@@ -29,6 +30,11 @@
         <td><%= sensor.firmware %></td>
         <td><%= sensor.notifica_down %></td>
         <td><%= sensor.tdown %></td>
+        <%if sensor.measurements.blank? then %>
+        <td>nessuna misura</td>
+        <% else %>
+        <td><%= sensor.measurements.last_measure.value %></td>
+        <% end %>
         <td><%= sensor.measure_unit %></td>
 <%#        <td><%= link_to 'Show', sensor %></td>
 <%#        <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>

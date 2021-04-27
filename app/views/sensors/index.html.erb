@@ -1,9 +1,8 @@
 <h1>Your Sensors</h1>
 
 <div id="context-filter-accordion">
-    <%= render 'contextFilter'%>
+    <%= render 'contextFilter' %>
 </div>
-
 <br>
 <div id="table">
     <table class="table table-striped table-bordered table-hover table-responsive">
@@ -12,32 +11,57 @@
             <th>Uri</th>
             <th>Sensor type</th>
             <th>Public</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
+            <th>Position</th>
             <th>Firmware</th>
             <th>Notifica down</th>
-            <th>Tdown</th>
+            <th>Tdown (ore)</th>
+            <th>Last measure</th>
             <th>Measure unit</th>
+            <th>Misura Assente</th>
             <th colspan="5"></th>
         </tr>
         </thead>
 
         <tbody>
         <% @sensors.each do |sensor| %>
+            <% measure = @sensors1.select { |sensor1| sensor1.id == sensor.id }.first %>
             <tr>
                 <td><%= sensor.URI %></td>
                 <td><%= sensor.sensor_type %></td>
                 <td><%= sensor.public %></td>
-                <td><%= sensor.latitude %></td>
-                <td><%= sensor.longitude %></td>
+                <td><%= sensor.position %> <br> [<%= sensor.latitude %>,<%= sensor.longitude %>]</td>
                 <td><%= sensor.firmware %></td>
                 <td><%= sensor.notifica_down %></td>
                 <td><%= sensor.tdown %></td>
+                <% if measure.blank? then %>
+                    <td>nessuna misura</td>
+                <% else %>
+                    <td><%= measure.value %></td>
+                <% end %>
                 <td><%= sensor.measure_unit %></td>
+                <%
+                    if sensor.notifica_down
+                    then
+                      if !measure.nil?
+                        if measure.timestamp.blank? || measure.timestamp < sensor.tdown.hours.ago
+                %>
+                            <td style="color: #ff0000">Ass.</td>
+                        <% else %>
+                            <td>NO</td>
+                        <%
+                            end
+                            else %>
+                        <td style="color: #ff0000">Ass.</td>
+
+                    <% end else %>
+                    <td>-</td>
+                <% end
+                %>
                 <td><%= link_to 'Show', sensor %></td>
                 <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
                 <td><%= link_to 'Destroy', sensor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                 <td><%= link_to 'Measurements', sensor_measurements_path(sensor) %></td>
+
             </tr>
         <% end %>
         </tbody>
@@ -50,3 +74,12 @@
 
 <br>
 <br>
+
+<script>
+    <% if session[:position].present?
+          position = session[:position]
+          radius = session[:radius] %>
+    <% end %>
+
+    <%= render(:partial => 'map', :handlers => [:erb], :formats => [:js], locals: {position: position, radius: radius})  %>
+</script>
