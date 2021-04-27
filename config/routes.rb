@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     end
   end
   devise_for :users
+  notify_to :users, with_devise: :users, devise_default_routes: true
   get 'home/index'
   root 'home#index'
 

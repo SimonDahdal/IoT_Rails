@@ -27,5 +27,6 @@ class HomeController < ApplicationController
       @alert= alert
       flash.alert=message
     end
+    @notifications = current_user.unopened_notification_index_with_attributes
   end
 end

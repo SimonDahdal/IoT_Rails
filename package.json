@@ -10,8 +10,10 @@
         "chart.js": "^3.0.2",
         "chartkick": "^4.0.2",
         "jquery": "^3.6.0",
+        "jquery-ujs": "^1.2.2",
         "leaflet": "^1.7.1",
         "popper.js": "^1.16.1",
+        "rails-ujs": "^5.2.5",
         "turbolinks": "^5.2.0"
     },
     "version": "0.1.0",

@@ -26,9 +26,15 @@
         </div>
     </div>
 </div>
+
+
+
 <% if user_signed_in? %>
    <h1> Benvenuto <%= current_user.email.split('@')[0] %> </h1>
 <% else %>
    <h3> Effettua il login </h3>
     <%= link_to "Login", new_user_session_path ,class:"btn btn-secondary"  %>
 <%end %>
+
+<%= render_notifications @notifications, fallback: :default, target: :users,devise_default_routes: true %>
+
