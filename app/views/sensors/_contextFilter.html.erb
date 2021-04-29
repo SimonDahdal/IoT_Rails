@@ -73,17 +73,33 @@
         <div class="card-header" id="headingThree">
             <h5 class="mb-0">
                 <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Other
+                    URI pattern
                 </button>
+                <% if session[:uri_pattern].present?
+                     uri_pattern = session[:uri_pattern]%>
+                <% end %>
             </h5>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
             <div class="card-body">
-                Altri filtri...
+                <div class="col">
+                    <%= form_with url: request.env['PATH_INFO'], method: :get do |form| %>
+                        <div class="form-group">
+                            <%= form.label :uri_pattern, "Pattern ricerca:" %>
+                            <%= form.text_field :uri_pattern, class: "form-control", placeholder: "Search by pattern...", value:uri_pattern %>
+                        </div>
+                        <br>
+                        <%= form.submit "Filter by URI pattern", class: "btn btn-outline-success my-2 my-sm-0" %>
+                    <% end %>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<% unless checked.nil? and position.nil? %>
-    <%= link_to 'Remove filter', sensors_destroy_filter_path %>
+<% unless checked.nil? and position.nil? and uri_pattern.nil?%>
+    <% if current_page?(sensors_path) %>
+        <%= link_to 'Remove filter', sensors_destroy_filter_path %>
+    <% else #public sensors%>
+        <%= link_to 'Remove filter', public_sensors_destroy_filter_path %>
+    <% end %>
 <% end %>
