@@ -97,5 +97,9 @@
     </div>
 </div>
 <% unless checked.nil? and position.nil? and uri_pattern.nil?%>
-    <%= link_to 'Remove filter', sensors_destroy_filter_path %>
+    <% if current_page?(sensors_path) %>
+        <%= link_to 'Remove filter', sensors_destroy_filter_path %>
+    <% else #public sensors%>
+        <%= link_to 'Remove filter', public_sensors_destroy_filter_path %>
+    <% end %>
 <% end %>
