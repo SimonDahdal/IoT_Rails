@@ -17,6 +17,7 @@ class SensorsController < ApplicationController
 
     @sensors = @sensors.filter_by_sensor_types(session[:sensor_types]) if session[:sensor_types].present?
     @sensors = @sensors.filter_by_position(session[:position],session[:radius]) if session[:position].present?
+    @sensors = @sensors.filter_by_uri(session[:uri_pattern]) if session[:uri_pattern].present?
     @commit = params[:commit].split[2] if params[:commit].present?
 
   end
@@ -25,6 +26,7 @@ class SensorsController < ApplicationController
     session[:sensor_types]=nil
     session[:position]=nil
     session[:radius]=nil
+    session[:uri_pattern]=nil
     redirect_to sensors_path
   end
 
@@ -123,7 +125,7 @@ class SensorsController < ApplicationController
   end
 
   def filtering_params(parameters)
-    parameters.slice(:sensor_types, :position, :radius)
+    parameters.slice(:sensor_types, :position, :radius, :uri_pattern)
   end
 
   # Only allow a list of trusted parameters through.

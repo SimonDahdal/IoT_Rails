@@ -19,6 +19,8 @@ class Sensor < ApplicationRecord
   scope :filter_by_public, -> { where("public = ?", true) }
 
   scope :all_sensor_last_measurements, -> {joins(:measurements).select("DISTINCT ON (sensor_id) sensors.*, value, timestamp").order("sensor_id", "timestamp DESC")}
+  #escape delle virgolette, che sono necessarie a postgres per evitare conversione automatica URI in minuscolo
+  scope :filter_by_uri, -> (pattern) { where("\"URI\" LIKE ?", '%' + pattern + '%')}
 
   def position
     result = Geocoder.search([self.latitude,self.longitude]).first
