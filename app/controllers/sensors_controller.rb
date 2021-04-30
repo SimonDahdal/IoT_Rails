@@ -5,11 +5,12 @@ class SensorsController < ApplicationController
   # GET /sensors or /sensors.json
 
   def index
-    @sensors = current_user.sensors.paginate(page: params[:page], per_page: 2)
+    @sensors = current_user.sensors
+    @types = @sensors.order(:sensor_type).distinct.pluck(:sensor_type)
+    @sensors=@sensors.paginate(page: params[:page], per_page: 3)
     #per via di sensors 1 che contiene le ultime misure, sensors potrebbe sembrare ridondante,
     # ma sensors1 per come è costruito non avrebbe i sensori senza misure.
     @sensors1 = @sensors.all_sensor_last_measurements
-    @types = @sensors.order(:sensor_type).distinct.pluck(:sensor_type)
 
     filtering_params(params).each do |key, value|
       session[key] = value if value.present?
