@@ -6,7 +6,7 @@ class SensorsController < ApplicationController
 
   def index
     @sensors = current_user.sensors
-    @types = @sensors.order(:sensor_type).distinct.pluck(:sensor_type)
+    @types = @sensors.obtain_types
     @sensors=@sensors.paginate(page: params[:page], per_page: 3)
     #per via di sensors 1 che contiene le ultime misure, sensors potrebbe sembrare ridondante,
     # ma sensors1 per come è costruito non avrebbe i sensori senza misure.
@@ -40,7 +40,7 @@ class SensorsController < ApplicationController
   end
   def public_sensors_index
     @sensors = Sensor.filter_by_public
-    @types = @sensors.order(:sensor_type).distinct.pluck(:sensor_type)
+    @types = @sensors.obtain_types
 
     filtering_params(params).each do |key, value|
       session[key] = value if value.present?
