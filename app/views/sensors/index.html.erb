@@ -4,21 +4,22 @@
     <%= render 'contextFilter' %>
 </div>
 <br>
-<div id="table">
-    <table class="table table-striped table-bordered table-hover table-responsive">
+
+<div id="table" >
+    <table class="table table-striped table-bordered table-hover table-responsive overflow-auto">
         <thead class="thead-dark">
         <tr>
             <th>Uri</th>
-            <th>Sensor type</th>
+            <th>Type</th>
             <th>Public</th>
             <th>Position</th>
             <th>Firmware</th>
             <th>Notifica down</th>
             <th>Tdown (ore)</th>
-            <th>Last measure</th>
-            <th>Measure unit</th>
-            <th>Misura Assente</th>
-            <th colspan="5"></th>
+            <th>Last Meas.</th>
+            <th>Meas. Unit</th>
+            <th>Meas. Assente</th>
+            <th colspan="4"></th>
         </tr>
         </thead>
 
@@ -29,7 +30,7 @@
                 <td><%= sensor.URI %></td>
                 <td><%= sensor.sensor_type %></td>
                 <td><%= sensor.public %></td>
-                <td><%= sensor.position %> <br> [<%= sensor.latitude %>,<%= sensor.longitude %>]</td>
+                <td><%= sensor.position %> [<%= sensor.latitude %>,<%= sensor.longitude %>]</td>
                 <td><%= sensor.firmware %></td>
                 <td><%= sensor.notifica_down %></td>
                 <td><%= sensor.tdown %></td>
@@ -50,23 +51,27 @@
                             <td>NO</td>
                         <%
                             end
-                            else %>
+                        else %>
                         <td style="color: #ff0000">Ass.</td>
 
                     <% end else %>
                     <td>-</td>
-                <% end
-                %>
+                <% end %>
+
                 <td><%= link_to 'Show', sensor %></td>
-                <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
-                <td><%= link_to 'Destroy', sensor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                 <td><%= link_to 'Measurements', sensor_measurements_path(sensor) %></td>
+                <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
+                <td><u> <%= link_to 'Destroy', sensor, method: :delete,
+                                data: { confirm: 'Are you sure?' },
+                                class: "text-danger" %> </u></td>
 
             </tr>
         <% end %>
+
         </tbody>
     </table>
 </div>
+
 <%= will_paginate(@sensors, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer) %>
 <br>
 
