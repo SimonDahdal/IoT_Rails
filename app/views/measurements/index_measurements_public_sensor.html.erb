@@ -13,19 +13,17 @@
 
 <div class="container-fluid ">
     <span class="d-flex justify-content-center">
-        public_sensor_measurements
         <%= link_to "24 hours", public_sensor_measurements_path(:format => "24_hours"), class: "form-inline my-2 my-lg-0 btn btn-primary  m-2" %>
         <%= link_to "1 week", public_sensor_measurements_path(:format => "1_week"), class: "form-inline my-2 my-lg-0 btn btn-primary  m-2" %>
         <%= link_to "1 month", public_sensor_measurements_path(:format => "1_month"), class: "form-inline my-2 my-lg-0 btn btn-primary  m-2" %>
     </span>
 </div>
 
-<table>
-  <thead>
+<table class="table table-striped table-bordered table-hover mt-3">
+  <thead class="thead-dark">
     <tr>
       <th>Timestamp</th>
       <th>Value</th>
-      <th colspan="3"></th>
     </tr>
   </thead>
 
