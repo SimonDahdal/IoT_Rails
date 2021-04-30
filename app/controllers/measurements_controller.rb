@@ -21,9 +21,9 @@ class MeasurementsController < ApplicationController
 
   def index_measurements_public_sensor
     if @sensor.public == true
-      @measurements = @sensor.measurements
-      @data = @measurements.chart_data(params[:format])
-      @label = str_label(params[:format])
+       @measurements = @sensor.measurements.order_most_recent
+       @data = @measurements.chart_data(params[:format])
+       @label = str_label(params[:format])
     else
       @measurements = nil
     end
