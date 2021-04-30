@@ -67,7 +67,7 @@
         </tbody>
     </table>
 </div>
-
+<%= will_paginate(@sensors, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer) %>
 <br>
 
 <%= link_to 'New Sensor', new_sensor_path, class: "btn btn-primary" %>

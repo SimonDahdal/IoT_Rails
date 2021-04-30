@@ -5,7 +5,7 @@ class SensorsController < ApplicationController
   # GET /sensors or /sensors.json
 
   def index
-    @sensors = current_user.sensors
+    @sensors = current_user.sensors.paginate(page: params[:page], per_page: 2)
     #per via di sensors 1 che contiene le ultime misure, sensors potrebbe sembrare ridondante,
     # ma sensors1 per come è costruito non avrebbe i sensori senza misure.
     @sensors1 = @sensors.all_sensor_last_measurements

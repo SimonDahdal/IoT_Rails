@@ -37,6 +37,8 @@ gem 'geocoder', '~> 1.6', '>= 1.6.6'
 
 gem 'activity_notification', '~> 2.2', '>= 2.2.2'
 gem 'rexml', '~> 3.2', '>= 3.2.4'
+gem 'will_paginate', '~> 3.3'
+gem 'bootstrap-will_paginate', '~> 1.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
