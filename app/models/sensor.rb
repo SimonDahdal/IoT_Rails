@@ -8,7 +8,8 @@ class Sensor < ApplicationRecord
   validates_associated :user
 
   reverse_geocoded_by :latitude, :longitude
-  #after_validation :reverse_geocode if (:latitude_changed? or :longitude_changed?)
+  acts_as_notification_group printable_name: ->(sensor) { "sensor \"#{sensor.URI}\"" }
+  acts_as_notifier printable_name: :URI
 
   scope :filter_by_sensor_types, -> (types) { where :sensor_type => types }
   scope :filter_by_position, -> (position, radius) {
@@ -18,6 +19,8 @@ class Sensor < ApplicationRecord
   scope :filter_by_public, -> { where("public = ?", true) }
 
   scope :all_sensor_last_measurements, -> {joins(:measurements).select("DISTINCT ON (sensor_id) sensors.*, value, timestamp").order("sensor_id", "timestamp DESC")}
+  #escape delle virgolette, che sono necessarie a postgres per evitare conversione automatica URI in minuscolo
+  scope :filter_by_uri, -> (pattern) { where("\"URI\" LIKE ?", '%' + pattern + '%')}
 
   def position
     result = Geocoder.search([self.latitude,self.longitude]).first
