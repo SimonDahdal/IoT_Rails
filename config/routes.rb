@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   post 'sensors/:sensor_id/upload', to: 'sensors#upload'
   post 'sensors/:sensor_id/download', to: 'sensors#download'
+  post 'sensors/:sensor_id/refresh_token', to: 'sensors#refresh_token'
   post '/measurements.json', to: 'measurements#create_by_sensor'
 
   get '/sensors_destroy_filter', to: 'sensors#destroy_filter_and_index'

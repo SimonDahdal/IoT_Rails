@@ -65,6 +65,15 @@
       <%= @sensor.measure_unit %>
     </p>
 
+    <p>
+        <strong>Token:</strong>
+        <%= @sensor.auth_token %>
+        <%= form_with url: "/sensors/#{@sensor.id}/refresh_token" do |form| %>
+            <%= form.hidden_field :sensor_id, class:"form-control", value: @sensor.id%>
+            <%= form.submit "Rigenera token" %>
+        <% end %>
+    </p>
+
     <%= link_to 'Edit', edit_sensor_path(@sensor), class: "form-inline my-2 my-lg-0 btn btn-primary  "%> |
     <%= link_to 'Back', sensors_path, class: "form-inline my-2 my-lg-0 btn btn-primary "%>
     <br/>
