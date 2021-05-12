@@ -10,6 +10,8 @@ class Sensor < ApplicationRecord
   reverse_geocoded_by :latitude, :longitude, :address => :position
   after_validation :reverse_geocode, if: ->(obj){ (obj.latitude.present? and obj.latitude_changed?) or (obj.longitude.present? and obj.longitude_changed?) }
 
+  has_secure_token :auth_token
+
   acts_as_notification_group printable_name: ->(sensor) { "sensor \"#{sensor.URI}\"" }
   acts_as_notifier printable_name: :URI
 
