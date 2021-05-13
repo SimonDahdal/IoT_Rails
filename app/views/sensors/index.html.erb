@@ -61,10 +61,12 @@
                 <td><%= link_to 'Show', sensor %></td>
                 <td><%= link_to 'Measurements', sensor_measurements_path(sensor) %></td>
                 <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
-                <td><u> <%= link_to 'Destroy', sensor, method: :delete,
+                <td>
+                    <u> <%= link_to 'Destroy', sensor, method: :delete,
                                 data: { confirm: 'Are you sure?' },
-                                class: "text-danger" %> </u></td>
-
+                                class: "text-danger" %>
+                    </u>
+                </td>
             </tr>
         <% end %>
 
