@@ -54,18 +54,25 @@ class SensorsController < ApplicationController
 
   # GET /sensors/1 or /sensors/1.json
   def show
-    @last=@sensor.measurements.last_measure
-    #per visualizzare avviso in caso di down
-    @alarm = false
-    if @sensor.notifica_down
-    then
-      @recent = @sensor.measurements.recent(@sensor.tdown.hours.ago)
-      if @recent.blank?
+    boolUser = @sensor.user_id
+    if boolUser == current_user.id
+      @last=@sensor.measurements.last_measure
+      #per visualizzare avviso in caso di down
+      @alarm = false
+      if @sensor.notifica_down
       then
-        @alarm = true
+        @recent = @sensor.measurements.recent(@sensor.tdown.hours.ago)
+        if @recent.blank?
+        then
+          @alarm = true
+        end
       end
+      @measurements=@sensor.measurements.order_most_recent
+    else
+      flash[:notice] = "ACCESS DENIED: NOT YOUR SENSOR"
+      redirect_to public_sensors_path
     end
-    @measurements=@sensor.measurements.order_most_recent
+
   end
 
   # GET /sensors/new
@@ -150,7 +157,12 @@ class SensorsController < ApplicationController
   private
 
   def set_sensor
+    begin
     @sensor = Sensor.find(params[:id])
+    rescue ::ActiveRecord::RecordNotFound
+      flash[:notice] = "SENSORE CERCATO NON ESISTE"
+      redirect_to sensors_path
+    end
   end
 
   def filtering_params(parameters)

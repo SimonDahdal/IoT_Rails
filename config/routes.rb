@@ -26,5 +26,7 @@ Rails.application.routes.draw do
   get '/sensors_destroy_filter', to: 'sensors#destroy_filter_and_index'
   get '/public_sensors_destroy_filter', to: 'sensors#destroy_filter_and_public_index'
 
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  #Tutti i Path sconosciuti verra reindirizzati verso il path route
+  #get '*path' => redirect('/')
+
 end
