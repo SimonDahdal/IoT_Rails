@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Public Sensors</h1>
 <br>
 <div id="context-filter-accordion">
@@ -33,15 +31,12 @@
         <td><%= sensor.notifica_down %></td>
         <td><%= sensor.tdown %></td>
         <%if sensor.measurements.blank? then %>
-        <td>nessuna misura</td>
+            <td>nessuna misura</td>
         <% else %>
-        <td><%= sensor.measurements.last_measure.value %></td>
+            <td><%= sensor.measurements.last_measure.value %></td>
         <% end %>
         <td><%= sensor.measure_unit %></td>
-<%#        <td><%= link_to 'Show', sensor %></td>
-<%#        <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
-<%#        <td><%= link_to 'Destroy', sensor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'Measurements', "pub_sensor/#{sensor.id}/measurements"%></td>
+        <td><%= link_to 'Measurements', public_sensor_measurements_path(sensor.id)%></td>
       </tr>
     <% end %>
   </tbody>

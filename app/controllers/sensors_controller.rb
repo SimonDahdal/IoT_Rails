@@ -54,18 +54,25 @@ class SensorsController < ApplicationController
 
   # GET /sensors/1 or /sensors/1.json
   def show
-    @last=@sensor.measurements.last_measure
-    #per visualizzare avviso in caso di down
-    @alarm = false
-    if @sensor.notifica_down
-    then
-      @recent = @sensor.measurements.recent(@sensor.tdown.hours.ago)
-      if @recent.blank?
+    boolUser = @sensor.user_id
+    if boolUser == current_user.id
+      @last=@sensor.measurements.last_measure
+      #per visualizzare avviso in caso di down
+      @alarm = false
+      if @sensor.notifica_down
       then
-        @alarm = true
+        @recent = @sensor.measurements.recent(@sensor.tdown.hours.ago)
+        if @recent.blank?
+        then
+          @alarm = true
+        end
       end
+      @measurements=@sensor.measurements.order_most_recent
+    else
+      flash[:notice] = "ACCESS DENIED: NOT YOUR SENSOR"
+      redirect_to public_sensors_path
     end
-    @measurements=@sensor.measurements.order_most_recent
+
   end
 
   # GET /sensors/new
@@ -80,6 +87,7 @@ class SensorsController < ApplicationController
   # POST /sensors or /sensors.json
   def create
     @sensor = Sensor.new(sensor_params)
+    @sensor.auth_token= generate_token
 
     respond_to do |format|
       if @sensor.save
@@ -136,10 +144,25 @@ class SensorsController < ApplicationController
     @types = current_user.sensor.order(:sensor_type).distinct.pluck(:sensor_type)
   end
 
+  def refresh_token
+    sensor = Sensor.find(params[:sensor_id])
+    sensor.auth_token = generate_token
+    if sensor.save!
+      redirect_to sensor_path(params[:sensor_id]), notice: 'Token was successfully updated.'
+    else
+      redirect_to sensor_path(params[:sensor_id]), notice: 'Token wasn\'t successfully updated.'
+    end
+  end
+
   private
 
   def set_sensor
+    begin
     @sensor = Sensor.find(params[:id])
+    rescue ::ActiveRecord::RecordNotFound
+      flash[:notice] = "SENSORE CERCATO NON ESISTE"
+      redirect_to sensors_path
+    end
   end
 
   def filtering_params(parameters)
@@ -153,5 +176,14 @@ class SensorsController < ApplicationController
 
   def clear_params
     params.compact_blank!
+  end
+
+
+  def generate_token
+    loop do
+      token = SecureRandom.hex(10)
+      break token unless Sensor.where(auth_token: token).exists?
+    end
+
   end
 end

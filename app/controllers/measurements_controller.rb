@@ -55,8 +55,16 @@ class MeasurementsController < ApplicationController
     #mp2 = mp1.extract!(:sensor_uri)
     #@measurement = Measurement.new(mp1)
     @sensor = Sensor.find_by_URI(measurement_params[:sensor_uri])
-    @measurement = @sensor.measurements.build(measurement_params.except(:sensor_uri))
-    create_respond
+    if @sensor.auth_token == measurement_params[:auth_token]
+      then
+      @measurement = @sensor.measurements.build(measurement_params.except(:sensor_uri,:auth_token))
+      create_respond
+    else
+      respond_to do |format|
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @measurement.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PATCH/PUT /measurements/1 or /measurements/1.json
@@ -97,7 +105,7 @@ class MeasurementsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def measurement_params
-      params.require(:measurement).permit(:timestamp, :value, :sensor_uri, :sensor_id)
+      params.require(:measurement).permit(:timestamp, :value, :sensor_uri, :sensor_id, :auth_token)
     end
 
   def create_respond
