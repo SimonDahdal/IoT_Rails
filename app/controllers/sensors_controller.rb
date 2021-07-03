@@ -1,5 +1,5 @@
 class SensorsController < ApplicationController
-  before_action :authenticate_user!, except: [:public_sensors_index,:destroy_filter_and_index]
+  before_action :authenticate_user!, except: [:public_sensors_index,:destroy_filter_and_public_index]
   before_action :set_sensor, only: %i[ show edit update destroy]
   before_action :clear_params, only: [:index,:public_sensors_index]
   # GET /sensors or /sensors.json
