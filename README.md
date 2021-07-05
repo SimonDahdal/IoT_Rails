@@ -11,6 +11,7 @@ The sensors can interact with the platform by sending serialized measurements in
 [Deployment Link](https://rails-sensor-platform.herokuapp.com)
 
 Credentials to test the features:
+
 username: sd@gmail.com
 password: 123456
 
