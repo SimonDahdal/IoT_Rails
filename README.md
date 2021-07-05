@@ -8,13 +8,7 @@ It is also able to interact with users, both to collect sensor data and to view 
 The application can be used for any type of sensor as long as the measured data is in a numerical format.  
 The sensors can interact with the platform by sending serialized measurements in JSON format using a ReST interface.  
 
-[Deployment Link](https://rails-sensor-platform.herokuapp.com)
-
-Credentials to test the features:  
-username: sd@gmail.com  
-password: 123456  
-
-
+[Deployment Link](https://rails-sensor-platform.herokuapp.com) 
 
 ## Info for Developing
 
