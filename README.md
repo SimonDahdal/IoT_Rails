@@ -9,6 +9,7 @@ The application can be used for any type of sensor as long as the measured data 
 The sensors can interact with the platform by sending serialized measurements in JSON format using a ReST interface.
 
 [Deployment Link](https://rails-sensor-platform.herokuapp.com)
+
 Credentials to test the features:
 username: sd@gmail.com
 password: 123456
