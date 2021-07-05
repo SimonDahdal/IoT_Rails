@@ -1,6 +1,6 @@
 # IoT Sensor
 
-Piattaforma per raccogliere e visualizzare le misure dei tuoi sensori.
+Platform to collect and view the measurements of your sensors.
 
 [Link](https://rails-sensor-platform.herokuapp.com)
 
