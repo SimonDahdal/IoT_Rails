@@ -5,42 +5,48 @@
 </div>
 <br>
 <table class="table table-striped table-bordered table-hover">
-  <thead class="thead-dark">
+    <thead class="thead-dark">
     <tr>
-      <th>Uri</th>
-      <th>Sensor type</th>
-      <th>Public</th>
-      <th>Position</th>
-      <th>Firmware</th>
-      <th>Notifica down</th>
-      <th>Tdown</th>
-      <th>Last measure</th>
-      <th>Measure unit</th>
-      <th colspan="4"></th>
+        <th>Uri</th>
+        <th>Sensor type</th>
+        <th>Public</th>
+        <th>Position</th>
+        <th>Firmware</th>
+        <th>Notifica down</th>
+        <th>Tdown</th>
+        <th>Last measure</th>
+        <th>Measure unit</th>
+        <th colspan="4"></th>
     </tr>
-  </thead>
+    </thead>
 
-  <tbody>
+    <tbody>
     <% @sensors.each do |sensor| %>
-      <tr>
-        <td><%= sensor.URI %></td>
-        <td><%= sensor.sensor_type %></td>
-        <td><%= sensor.public %></td>
-        <td><%= sensor.position %> <br> [<%= sensor.latitude %>,<%= sensor.longitude %>]</td>
-        <td><%= sensor.firmware %></td>
-        <td><%= sensor.notifica_down %></td>
-        <td><%= sensor.tdown %></td>
-        <%if sensor.measurements.blank? then %>
-            <td>nessuna misura</td>
-        <% else %>
-            <td><%= sensor.measurements.last_measure.value %></td>
-        <% end %>
-        <td><%= sensor.measure_unit %></td>
-        <td><%= link_to 'Measurements', public_sensor_measurements_path(sensor.id)%></td>
-      </tr>
+        <tr>
+            <td><%= sensor.URI %></td>
+            <td><%= sensor.sensor_type %></td>
+            <td><%= sensor.public %></td>
+            <td><%= sensor.position %> <br> [<%= sensor.latitude %>,<%= sensor.longitude %>]</td>
+            <td><%= sensor.firmware %></td>
+            <td><%= sensor.notifica_down %></td>
+            <td><%= sensor.tdown %></td>
+            <% if sensor.measurements.blank? then %>
+                <td>nessuna misura</td>
+            <% else %>
+                <td><%= sensor.measurements.last_measure.value %></td>
+            <% end %>
+            <td><%= sensor.measure_unit %></td>
+            <td><%= link_to 'Measurements', public_sensor_measurements_path(sensor.id) %></td>
+        </tr>
     <% end %>
-  </tbody>
+    </tbody>
 </table>
-
+<script>
+    <% if session[:position].present?
+         position = session[:position]
+         radius = session[:radius] %>
+    <% end %>
+    <%= render(:partial => 'map', :handlers => [:erb], :formats => [:js], locals: { position: position, radius: radius }) %>
+</script>
 <br>
 
