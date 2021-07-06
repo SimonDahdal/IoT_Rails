@@ -30,7 +30,6 @@
 
 /config/database.yml
 
-/app/assets/uploads
 /public/packs
 /public/packs-test
 /node_modules
