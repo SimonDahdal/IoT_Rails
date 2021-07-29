@@ -8,6 +8,7 @@ WORKDIR /usr/src/iot_rails
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
+RUN yarn install
 
 COPY . .
 
