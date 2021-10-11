@@ -28,8 +28,6 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-/config/database.yml
-
 /app/assets/uploads
 /public/packs
 /public/packs-test
@@ -37,13 +35,5 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
-/config/database.yml
 .idea
-
-/public/packs
-/public/packs-test
-/node_modules
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
 
